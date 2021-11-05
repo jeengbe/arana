@@ -1,0 +1,9 @@
+{
+  "extends": "./../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "resolveJsonModule": true,
+    "outDir": "./../bin"
+  },
+  "include": ["./arana.ts", "./scripts/*.ts"],
+}
