@@ -13,7 +13,7 @@ export enum LogLevel {
 function ERR(strings: TemplateStringsArray, ...rest: any[]): void {
   console.log(`${chalk.red("[E]")} ${strings.map((string, index) => string + (rest[index] ? inspect(rest[index], { colors: true }) : "")).join("")}`);
 }
-export function DBG(strings: TemplateStringsArray, ...rest: any[]): void {
+function DBG(strings: TemplateStringsArray, ...rest: any[]): void {
   console.log(`${chalk.gray("[D]")} ${strings.map((string, index) => string + (rest[index] ? inspect(rest[index], { colors: true }) : "")).join("")}`);
 }
 
