@@ -3,7 +3,15 @@
   "compilerOptions": {
     "baseUrl": ".",
     "resolveJsonModule": true,
-    "outDir": "./../bin"
+    "outDir": "./../bin",
+    "paths": {
+      "@build/*": ["./*"],
+      "@lib/*": ["./lib/*"],
+      "@logger": ["./lib/logger"],
+      "@settings": ["./settings"],
+      "@paths": ["./paths"],
+      "@utils": ["./lib/utils"]
+    },
   },
-  "include": ["./arana.ts", "./scripts/*.ts"],
+  "include": ["./arana.ts", "./scripts/*.ts"]
 }

@@ -122,7 +122,10 @@
     "no-sequences": "warn",
     "@typescript-eslint/no-throw-literal": "off",
     "no-unmodified-loop-condition": "warn",
-    "@typescript-eslint/no-unused-expressions": "warn",
+    "@typescript-eslint/no-unused-expressions": [
+      "warn",
+      { "allowTaggedTemplates": true }
+    ],
     "no-unused-labels": "warn",
     "no-useless-call": "warn",
     "no-useless-catch": "error",

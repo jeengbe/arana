@@ -1,4 +1,7 @@
 # Generic
 /node_modules
 /bin
-/.env*
+/.env
+
+# Manager
+/modules.json

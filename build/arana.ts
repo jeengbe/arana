@@ -1,11 +1,22 @@
 #!/usr/bin/env node
-const args = process.argv.slice(2);
 
+import { ERROR } from "@logger";
+import "./settings";
+
+const args = process.argv.slice(2);
 const option = args[0] ?? "<none>";
 
 if (!["start", "build", "test"].includes(option)) {
-  console.log(`Unknown option: ${option}`);
+  ERROR`Unknown option: ${option}`;
 } else {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  require(`./scripts/${option}`);
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    require(`./scripts/${option}`);
+  } catch (err) {
+    if (err instanceof Error) {
+      ERROR(err.message);
+    } else {
+      ERROR`Unknown error: ${err}`;
+    }
+  }
 }
