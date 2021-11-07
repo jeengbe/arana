@@ -1,7 +1,10 @@
 # Generic
 /node_modules
 /bin
+/dist
 /.env
 
-# Manager
+# Arana
 /modules.json
+/src/frontend/modules
+/src/backend/modules

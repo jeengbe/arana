@@ -1,0 +1,41 @@
+$default-duration: 150ms !default;
+
+@mixin transition($property) {
+  @if type-of($property) == "list" {
+    $animate: "";
+    @each $prop in $property {
+      $animate: $animate + "#{$prop} #{$default-duration} ease-in-out, ";
+    }
+    transition: #{$animate};
+  } @else {
+    transition: #{$property} #{$default-duration} ease-in-out;
+  }
+}
+
+@mixin variants() {
+  &.default {
+    --variant-accent: var(--default-accent);
+    --variant-background: var(--default-background);
+    --on-variant: var(--on-default);
+  }
+  &.success {
+    --variant-accent: var(--success-accent);
+    --variant-background: var(--success-background);
+    --on-variant: var(--on-success);
+  }
+  &.warning {
+    --variant-accent: var(--warning-accent);
+    --variant-background: var(--warning-background);
+    --on-variant: var(--on-warning);
+  }
+  &.error {
+    --variant-accent: var(--error-accent);
+    --variant-background: var(--error-background);
+    --on-variant: var(--on-error);
+  }
+  &.info {
+    --variant-accent: var(--info-accent);
+    --variant-background: var(--info-background);
+    --on-variant: var(--on-info);
+  }
+}

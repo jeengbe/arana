@@ -1,0 +1,25 @@
+{
+  "extends": "./../../tsconfig.json",
+  "compilerOptions": {
+    "sourceMap": true,
+    "target": "ES2016",
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "resolveJsonModule": true,
+    "lib": ["ES2016", "DOM"],
+    "paths": {
+      "@core/*": ["./core/*"],
+      "@Schwekas/UI/*": ["./modules/@Schwekas/UI/*"],
+      "@modules/*": ["./modules/*"]
+    },
+    "experimentalDecorators": true,
+    "plugins": [
+      {
+        "name": "typescript-plugin-css-modules",
+        "options": {
+          "customMatcher": "\\.scss$"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "pages.error.404.route": "/Error/404",
+  "pages.error.404.title": "Error 404",
+  "pages.error.404.text": "Nope"
+}

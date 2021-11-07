@@ -1,0 +1,6 @@
+pages:
+  error:
+   404:
+    route: /Error/404
+    title: Error 404
+    text: Nope
