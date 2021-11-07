@@ -1,3 +1,4 @@
+import { UserError } from "@lib/UserError";
 import { LogLevel } from "@settings";
 import * as chalk from "chalk";
 import { inspect } from "util";
@@ -45,11 +46,26 @@ export function WARN(strings: string | TemplateStringsArray, ...rest: any[]): vo
 }
 
 export function ERROR(strings: TemplateStringsArray, ...rest: any[]): void;
-export function ERROR(strings: string): void;
-export function ERROR(strings: string | TemplateStringsArray, ...rest: any[]): void {
-  if (!mayLog(LogLevel.ERROR)) return;
-
-  if (typeof strings === "string") {
+export function ERROR(strings: string | Error): void;
+export function ERROR(strings: string | TemplateStringsArray | Error, ...rest: any[]): void {
+  if (strings instanceof Error) {
+    ERROR(strings.message);
+    if (!(strings instanceof UserError)) {
+      const { stack } = strings;
+      if (stack !== undefined) {
+        const matches = /\(.*[\\/]bin[\\/](?<fileName>.*?)\.js/gm.exec(stack)?.groups;
+        if (matches !== undefined && "fileName" in matches) {
+          const { fileName } = matches;
+          // We're safe to assume that we only use .ts files, which all sit in build/**
+          ERROR`\tin ${`build/${fileName.replace(/\\/g, "/")}.ts`}`;
+        } else {
+          DEBUG`Unable to determine file name from error\n${strings}`;
+        }
+      } else {
+        DEBUG`Unable to determine file name from error\n${strings}`;
+      }
+    }
+  } else if (typeof strings === "string") {
     console.log(`${chalk.red("[E]")} ${strings}`);
   } else {
     console.log(`${chalk.red("[E]")} ${strings.map((string, index) => string + (rest[index] ? inspect(rest[index], { colors: true }) : "")).join("")}`);

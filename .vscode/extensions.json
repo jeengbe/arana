@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "redhat.vscode-yaml",
+    "nhoizey.gremlins",
+    "streetsidesoftware.code-spell-checker",
+    "davidlday.languagetool-linter",
+    "clinyong.vscode-css-modules",
+    "gruntfuggly.todo-tree"
+  ]
+}

@@ -5,6 +5,7 @@ import { __core, __dist, __modules, __src } from "@paths";
 import { readdirRecursiveSync } from "@utils";
 import * as Autoprefixer from "autoprefixer";
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
+import * as CopyWebpackPlugin from "copy-webpack-plugin";
 import * as CssMinimizerWebpackPlugin from "css-minimizer-webpack-plugin";
 import * as fs from "fs";
 import * as HtmlWebpackPlugin from "html-webpack-plugin";
@@ -15,6 +16,9 @@ import * as TerserWebpackPlugin from "terser-webpack-plugin";
 import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
 import * as webpack from "webpack";
 import type * as webpackDevServer from "webpack-dev-server";
+// @ts-expect-error
+import * as AddI18nPlugin from "./addI18nPlugin/index";
+import { UserError } from "./UserError";
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const FlexGapPolyfill = require("flex-gap-polyfill");
 const PostcssMediaMinMax = require("postcss-media-minmax");
@@ -34,7 +38,7 @@ function findEntries(): webpack.EntryObject {
     // All entry points for this module
     const moduleEntries = [];
 
-    const _module = path.resolve(__modules.frontend, vendor, name);
+    const _module = path.resolve(__modules.frontend, `@${vendor}`, name);
 
     // Check each type of file that we use as entry point in the bundle
     for (const category of [
@@ -47,8 +51,6 @@ function findEntries(): webpack.EntryObject {
       }
     }
     if (moduleEntries.length > 0) {
-      INFO`Found ${moduleEntries.length} entries for ${id}:
-${moduleEntries}`;
       entries[id] = moduleEntries;
     } else {
       WARN`No entry points found for ${id}`;
@@ -64,9 +66,9 @@ ${moduleEntries}`;
   }
 
   if (entriesLength === 0) {
-    throw new Error("Found no modules with entry points. Aborting start.");
+    throw new UserError("Found no modules with entry points. Aborting start.");
   } else {
-    INFO`Found ${entriesLength} modules with entry points:
+    DEBUG`Found ${entriesLength} module${entriesLength !== 1 ? "s" : ""} with entry points:
   ${entries}`;
   }
 
@@ -77,7 +79,7 @@ ${moduleEntries}`;
  * Map path alias from typescript to a format that webpack understands
  */
 function mapAlias() {
-  const tsconfig = JSON.parse(fs.readFileSync(path.resolve(__core.frontend, "tsconfig.json"), "utf8"));
+  const tsconfig = JSON.parse(fs.readFileSync(path.resolve(__src.frontend, "tsconfig.json"), "utf8"));
   const alias: Record<string, string> = {};
 
   for (const key in tsconfig.compilerOptions.paths) {
@@ -141,7 +143,7 @@ export function createWebpackConfig(): webpack.Configuration {
         })
       ],
       moduleIds: NODE_ENV === "development" ? "named" : "deterministic",
-      minimize: NODE_ENV === "development"
+      minimize: NODE_ENV !== "development"
     },
     module: {
       rules: [
@@ -158,7 +160,7 @@ export function createWebpackConfig(): webpack.Configuration {
           loader: "ts-loader",
           exclude: /node_modules/,
           options: {
-            context: __src,
+            context: __src.frontend,
             configFile: path.resolve(__src.frontend, "tsconfig.json"),
             transpileOnly: true
           }
@@ -212,6 +214,34 @@ export function createWebpackConfig(): webpack.Configuration {
           context: __src.frontend,
           configFile: path.resolve(__src.frontend, "tsconfig.json")
         }
+      }),
+      new CopyWebpackPlugin({
+        patterns: [
+          {
+            from: "src/frontend/core/i18n/*.json",
+            globOptions: {
+              ignore: ["**/*/_map.json"]
+            },
+            to: "[name].[contenthash][ext]"
+          },
+          {
+            from: "src/frontend/modules/**/*/i18n/*.json",
+            globOptions: {
+              ignore: ["**/*/_map.json"]
+            },
+            to: "[name].[contenthash][ext]"
+          }
+        ]
+      }),
+      new AddI18nPlugin(),
+      new HtmlWebpackPlugin({
+        filename: path.resolve(__dist.frontend, "index.html"),
+        templateContent: `
+<html>
+  <body>
+    <div id="app"></div>
+  </body>
+</html>`
       })
     ],
     stats: {
@@ -224,19 +254,11 @@ export function createWebpackConfig(): webpack.Configuration {
       mode: "development",
       devtool: "source-map"
     });
-    config.plugins!.push(new HtmlWebpackPlugin({
-      filename: path.resolve(__dist.frontend, "index.html"),
-      templateContent: `
-<html>
-  <body>
-    <div id="app"></div>
-  </body>
-</html>`
-    }),
-    new webpack.SourceMapDevToolPlugin({
-      filename: "[file].map",
-      namespace: "arana"
-    })
+    config.plugins!.push(
+      new webpack.SourceMapDevToolPlugin({
+        filename: "[file].map",
+        namespace: "arana"
+      })
     );
   } else {
     Object.assign(config, {
@@ -252,7 +274,9 @@ export function createWebpackConfig(): webpack.Configuration {
  * Generate webpack compiler configuration with respect to `process.env.NODE_ENV`
  */
 export function createWebpackCompiler() {
+  DEBUG("Creating webpack configuration");
   const config = createWebpackConfig();
+  DEBUG("Created webpack compiler");
   return webpack(config);
 }
 
@@ -266,6 +290,8 @@ export function createWebpackDevServerConfig(): webpackDevServer.Configuration {
     DEV_SERVER_SSL_CRT,
     PORT
   } = process.env;
+
+  DEBUG("Creating dev server configuration");
 
   const config: webpackDevServer.Configuration = {
     historyApiFallback: true,
@@ -282,16 +308,17 @@ export function createWebpackDevServerConfig(): webpackDevServer.Configuration {
   if (DEV_SERVER_SSL === "true") {
     INFO("Enabling https for dev server");
     if (!DEV_SERVER_SSL_CRT || !DEV_SERVER_SSL_KEY) {
-      WARN("No certificate file specified. Not using https.");
+      WARN("No certificate file specified. Disabling https.");
     } else if (!fs.existsSync(DEV_SERVER_SSL_CRT) || !fs.existsSync(DEV_SERVER_SSL_KEY)) {
-      WARN("Certificate file does not exist. Not using https.");
+      WARN("Certificate file does not exist. Disabling https.");
     } else {
       DEBUG`Using certificate from ${DEV_SERVER_SSL_CRT}`;
       DEBUG`Using key from ${DEV_SERVER_SSL_KEY}`;
       Object.assign(config, {
-        https: true,
-        cert: fs.readFileSync(DEV_SERVER_SSL_CRT, "utf-8"),
-        key: fs.readFileSync(DEV_SERVER_SSL_KEY, "utf-8")
+        https: {
+          cert: fs.readFileSync(DEV_SERVER_SSL_CRT, "utf-8"),
+          key: fs.readFileSync(DEV_SERVER_SSL_KEY, "utf-8")
+        }
       });
     }
   }

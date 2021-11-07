@@ -1,8 +1,9 @@
 process.env.NODE_ENV = "development";
-
 import { createWebpackCompiler, createWebpackDevServerConfig } from "@lib/webpack";
-import { INFO } from "@logger";
+import { DEBUG, INFO } from "@logger";
 import * as WebpackDevServer from "webpack-dev-server";
+
+DEBUG`Setting ${"NODE_ENV"} to ${"development"}`;
 
 const devServer = new WebpackDevServer(createWebpackDevServerConfig(), createWebpackCompiler());
 

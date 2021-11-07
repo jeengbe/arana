@@ -12,7 +12,7 @@
     "start": "arana start",
     "build": "arana build",
     "test": "arana test",
-    "build-arana": "ttsc -P build/tsconfig.json",
+    "build-arana": "npm install && ttsc -P build/tsconfig.json",
     "build-arana-watch": "ttsc -P build/tsconfig.json -w --watch",
     "start-watch": "nodemon ./bin/arana.js start --watch bin"
   },
@@ -24,11 +24,16 @@
     "arrowParens": "avoid"
   },
   "devDependencies": {
+    "@types/classnames": "^2.3.1",
+    "@types/copy-webpack-plugin": "^8.0.1",
     "@types/css-minimizer-webpack-plugin": "^3.0.2",
     "@types/fork-ts-checker-webpack-plugin": "^0.4.5",
     "@types/mini-css-extract-plugin": "^2.4.0",
     "@types/node": "^16.11.6",
     "@types/postcss-flexbugs-fixes": "^4.2.1",
+    "@types/react": "^17.0.34",
+    "@types/react-dom": "^17.0.11",
+    "@types/webpack": "^5.28.0",
     "@types/webpack-dev-server": "^4.3.1",
     "@typescript-eslint/eslint-plugin": "^5.3.0",
     "@typescript-eslint/parser": "^5.3.0",
@@ -36,7 +41,9 @@
     "autoprefixer": "^10.4.0",
     "chalk": "^4.1.2",
     "clean-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^9.0.1",
     "cross-env": "^7.0.3",
+    "css-loader": "^6.5.1",
     "css-minimizer-webpack-plugin": "^3.1.1",
     "dotenv": "^10.0.0",
     "eslint": "^8.1.0",
@@ -55,6 +62,12 @@
     "ts-loader": "^9.2.6",
     "tsconfig-paths-webpack-plugin": "^3.5.1",
     "ttypescript": "^1.5.12",
+    "typescript-plugin-css-modules": "^3.4.0",
     "webpack-dev-server": "^4.4.0"
+  },
+  "dependencies": {
+    "classnames": "^2.3.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
   }
 }

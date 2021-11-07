@@ -14,7 +14,7 @@ if (!["start", "build", "test"].includes(option)) {
     require(`./scripts/${option}`);
   } catch (err) {
     if (err instanceof Error) {
-      ERROR(err.message);
+      ERROR(err);
     } else {
       ERROR`Unknown error: ${err}`;
     }

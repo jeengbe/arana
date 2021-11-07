@@ -1,0 +1,34 @@
+{
+  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "cSpell.words": ["Schwekas", "arana"],
+  "languageToolLinter.languageTool.ignoredWordsInWorkspace": [
+    "arana",
+    "schwekas",
+    "todo"
+  ],
+  "languageToolLinter.languageTool.disabledRules": "EN_QUOTES,WHITESPACE_RULE,COMMA_PARENTHESIS_WHITESPACE",
+  "editor.tokenColorCustomizations": {
+    "[Atomize]": {
+      "textMateRules": [
+        {
+          "name": "reset 'module' keyword color",
+          "scope": [
+            "support.type.object.module.js",
+            "support.type.object.module.jsx",
+            "support.type.object.module.ts",
+            "support.type.object.module.tsx"
+          ],
+          "settings": {
+            "foreground": "#E06C75"
+          }
+        }
+      ]
+    }
+  },
+  "todo-tree.general.tags": [
+    "BUG",
+    "TODO",
+    "TEST"
+  ],
+  "files.eol": "\n"
+}
