@@ -5,6 +5,7 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "baseUrl": ".",
+    "skipLibCheck": true,
     "plugins": [
       {
         "transform": "@zerollup/ts-transform-paths"

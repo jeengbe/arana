@@ -1,0 +1,15 @@
+{
+  "extends": "./../../tsconfig.json",
+  "compilerOptions": {
+    "sourceMap": true,
+    "target": "ES2016",
+    "baseUrl": ".",
+    "resolveJsonModule": true,
+    "paths": {
+      "@core/*": ["./core/*"],
+      "@Schwekas/UI/*": ["./modules/@Schwekas/UI/*"],
+      "@modules/*": ["./modules/*"]
+    },
+    "experimentalDecorators": true,
+  }
+}
