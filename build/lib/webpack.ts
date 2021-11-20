@@ -16,7 +16,6 @@ import * as TerserWebpackPlugin from "terser-webpack-plugin";
 import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
 import * as webpack from "webpack";
 import type * as webpackDevServer from "webpack-dev-server";
-// @ts-expect-error
 import * as AddI18nPlugin from "./addI18nPlugin/index";
 import { UserError } from "./UserError";
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
@@ -288,6 +287,7 @@ export function createWebpackDevServerConfig(): webpackDevServer.Configuration {
     DEV_SERVER_SSL,
     DEV_SERVER_SSL_KEY,
     DEV_SERVER_SSL_CRT,
+    HOST,
     PORT
   } = process.env;
 
@@ -295,13 +295,15 @@ export function createWebpackDevServerConfig(): webpackDevServer.Configuration {
 
   const config: webpackDevServer.Configuration = {
     historyApiFallback: true,
+    host: HOST,
     port: PORT,
     client: {
       logging: "none",
       overlay: true,
       progress: true
     },
-    setupExitSignals: true
+    setupExitSignals: true,
+    open: true
   };
 
   // check if env DEV_SERVER_SSL is true, if so, enable https and read certificate from files and add to config

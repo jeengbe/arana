@@ -15,6 +15,11 @@ interface Environment {
    */
   PUBLIC_PATH: string;
   /**
+   * The host used by the development server
+   * @default undefined
+   */
+  HOST?: string;
+  /**
    * The port used by the development server
    * @default "8080"
    */
@@ -74,6 +79,9 @@ const variables: Record<keyof Environment, {
   },
   PUBLIC_PATH: {
     fallback: "/"
+  },
+  HOST: {
+    fallback: undefined
   },
   PORT: {
     fallback: "8081"
