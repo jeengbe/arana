@@ -53,13 +53,6 @@ function convertJsonType(type: ValueType, typesList: Record<string, GraphQLObjec
     case "array":
       // Array type, this is a bit more complicated
       const arrayType = convertJsonType(type.arrayType, typesList);
-      // if (typeof arrayType === "function") {
-      //   // Array type requires a function wrap, therefore we need to wrap it, as lists cannot contain functions
-      //   return () => (type.nullable ?
-      //     GraphQLList(type.arrayType.nullable ? typesList[type.arrayType.type] : GraphQLNonNull(typesList[type.arrayType.type])) :
-      //     GraphQLNonNull(GraphQLList(type.arrayType.nullable ? typesList[type.arrayType.type] : GraphQLNonNull(typesList[type.arrayType.type])))
-      //   );
-      // }
       gType = GraphQLList(arrayType);
       break;
     case "custom":
@@ -67,7 +60,9 @@ function convertJsonType(type: ValueType, typesList: Record<string, GraphQLObjec
       gType = typesList[type.customType];
   }
 
-  return type.nullable ? gType! : GraphQLNonNull(gType!);
+  if (gType === undefined) throw new Error("Unknown type!");
+
+  return type.nullable ? gType : GraphQLNonNull(gType);
 }
 
 function buildObjectTypeFromJsonSchema(json: GQLType, types: Record<string, GraphQLObjectType>): GraphQLObjectType {
