@@ -12,6 +12,27 @@
     "project": "tsconfig.json"
   },
   "plugins": ["@typescript-eslint"],
+  "overrides": [
+    {
+      // Don't require explicit accessibility for properties of class Query
+      "files": ["src/backend/modules/**/*.ts", "src/backend/core/utils.ts"],
+      "rules": {
+        "@typescript-eslint/explicit-member-accessibility": [
+          "error",
+          {
+            "accessibility": "explicit",
+            "overrides": {
+              "constructors": "no-public",
+              "properties": "no-public",
+              "methods": "no-public"
+            }
+          }
+        ],
+        "@typescript-eslint/explicit-module-boundary-types": "error",
+        "@typescript-eslint/no-parameter-properties": "off"
+      }
+    }
+  ],
   "rules": {
     // eslint
     // Possible Errors
@@ -188,7 +209,15 @@
     "@typescript-eslint/indent": [
       "error",
       2,
-      { "ignoredNodes": ["TSTypeParameterInstantiation"], "SwitchCase": 1 }
+      {
+        "ignoredNodes": [
+          "TSTypeParameterInstantiation",
+          "FunctionExpression > .params[decorators.length > 0]",
+          "FunctionExpression > .params > :matches(Decorator, :not(:first-child))",
+          "ClassBody.body > PropertyDefinition[decorators.length > 0] > .key"
+        ],
+        "SwitchCase": 1
+      }
     ],
     "jsx-quotes": "error",
     "key-spacing": ["error", { "beforeColon": false }],

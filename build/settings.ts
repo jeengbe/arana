@@ -25,6 +25,12 @@ interface Environment {
    */
   PORT: string;
   /**
+   * Whether to open the browser when starting the development server\
+   * Values `"true"` and `"false"` will be converted to boolean, all other values specify the path that is opened on start
+   * @default "false"
+   */
+  OPEN: "true" | "false" | string;
+  /**
    * Whether to enable HTTPS for the development server
    * @default "false"
    */
@@ -85,6 +91,9 @@ const variables: Record<keyof Environment, {
   },
   PORT: {
     fallback: "8081"
+  },
+  OPEN: {
+    fallback: "false"
   },
   DEV_SERVER_SSL: {
     validate: ["true", "false"],

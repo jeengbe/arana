@@ -1,7 +1,10 @@
 #!/usr/bin/env node
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+require("source-map-support").install();
 
 import { ERROR } from "@logger";
 import "./settings";
+
 
 const args = process.argv.slice(2);
 const option = args[0] ?? "<none>";

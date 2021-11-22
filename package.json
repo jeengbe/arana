@@ -14,8 +14,12 @@
     "test": "arana test",
     "build-arana": "npm install && ttsc -P build/tsconfig.json",
     "build-arana-watch": "ttsc -P build/tsconfig.json -w --watch",
-    "start-watch": "nodemon ./bin/arana.js start --watch bin",
-    "build-watch": "nodemon ./bin/arana.js build --watch bin"
+    "start-watch": "nodemon ./bin/arana.js start --watch bin --watch .env",
+    "build-frontend-watch": "nodemon ./bin/arana.js build --noBackend --watch bin --watch .env",
+    "build-backend-watch": "nodemon ./bin/arana.js build --noFrontend --watch bin --watch .env",
+    "start-frontend-watch": "nodemon ./bin/arana.js start --noBackend --watch bin --watch .env",
+    "start-backend-watch": "nodemon ./bin/arana.js start --noFrontend --watch bin --watch .env",
+    "build-watch": "nodemon ./bin/arana.js build --watch bin --watch .env"
   },
   "bin": {
     "arana": "./bin/arana.js"
@@ -27,13 +31,16 @@
   "devDependencies": {
     "@types/classnames": "^2.3.1",
     "@types/copy-webpack-plugin": "^8.0.1",
+    "@types/cors": "^2.8.12",
     "@types/css-minimizer-webpack-plugin": "^3.0.2",
+    "@types/express": "^4.17.13",
     "@types/fork-ts-checker-webpack-plugin": "^0.4.5",
     "@types/mini-css-extract-plugin": "^2.4.0",
     "@types/node": "^16.11.9",
     "@types/postcss-flexbugs-fixes": "^4.2.1",
     "@types/react": "^17.0.35",
     "@types/react-dom": "^17.0.11",
+    "@types/semver": "^7.3.9",
     "@types/webpack": "^5.28.0",
     "@types/webpack-dev-server": "^4.5.0",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
@@ -68,7 +75,12 @@
   },
   "dependencies": {
     "classnames": "^2.3.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-graphql": "^0.12.0",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "semver": "^7.3.5",
+    "source-map-support": "^0.5.21"
   }
 }

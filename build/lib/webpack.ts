@@ -235,12 +235,7 @@ export function createWebpackConfig(): webpack.Configuration {
       new AddI18nPlugin(),
       new HtmlWebpackPlugin({
         filename: path.resolve(__dist.frontend, "index.html"),
-        templateContent: `
-<html>
-  <body>
-    <div id="app"></div>
-  </body>
-</html>`
+        templateContent: "<html><body><div id=\"app\"></div></body></html>"
       })
     ],
     stats: {
@@ -288,7 +283,8 @@ export function createWebpackDevServerConfig(): webpackDevServer.Configuration {
     DEV_SERVER_SSL_KEY,
     DEV_SERVER_SSL_CRT,
     HOST,
-    PORT
+    PORT,
+    OPEN
   } = process.env;
 
   DEBUG("Creating dev server configuration");
@@ -303,7 +299,7 @@ export function createWebpackDevServerConfig(): webpackDevServer.Configuration {
       progress: true
     },
     setupExitSignals: true,
-    open: true
+    open: OPEN === "true" ? true : OPEN === "false" ? false : OPEN
   };
 
   // check if env DEV_SERVER_SSL is true, if so, enable https and read certificate from files and add to config
@@ -317,9 +313,12 @@ export function createWebpackDevServerConfig(): webpackDevServer.Configuration {
       DEBUG`Using certificate from ${DEV_SERVER_SSL_CRT}`;
       DEBUG`Using key from ${DEV_SERVER_SSL_KEY}`;
       Object.assign(config, {
-        https: {
-          cert: fs.readFileSync(DEV_SERVER_SSL_CRT, "utf-8"),
-          key: fs.readFileSync(DEV_SERVER_SSL_KEY, "utf-8")
+        server: {
+          type: "https",
+          options: {
+            cert: fs.readFileSync(DEV_SERVER_SSL_CRT, "utf-8"),
+            key: fs.readFileSync(DEV_SERVER_SSL_KEY, "utf-8")
+          }
         }
       });
     }

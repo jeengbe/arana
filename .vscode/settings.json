@@ -1,6 +1,10 @@
 {
   "typescript.tsdk": "node_modules\\typescript\\lib",
-  "cSpell.words": ["Schwekas", "arana"],
+  "cSpell.words": [
+    "arana",
+    "clazz",
+    "Schwekas"
+  ],
   "languageToolLinter.languageTool.ignoredWordsInWorkspace": [
     "arana",
     "schwekas",

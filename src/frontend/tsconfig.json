@@ -3,7 +3,7 @@
   "compilerOptions": {
     "sourceMap": true,
     "target": "ES2016",
-    "jsx": "react-jsx",
+    "jsx": "react",
     "baseUrl": ".",
     "resolveJsonModule": true,
     "lib": ["ES2016", "DOM"],

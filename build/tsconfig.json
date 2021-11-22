@@ -2,6 +2,7 @@
   "extends": "./../tsconfig.json",
   "compilerOptions": {
     "baseUrl": ".",
+    "sourceMap": true,
     "resolveJsonModule": true,
     "allowJs": true,
     "outDir": "./../bin",

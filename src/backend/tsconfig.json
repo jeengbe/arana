@@ -2,12 +2,13 @@
   "extends": "./../../tsconfig.json",
   "compilerOptions": {
     "sourceMap": true,
+    "module": "CommonJS",
     "target": "ES2016",
     "baseUrl": ".",
     "resolveJsonModule": true,
     "paths": {
       "@core/*": ["./core/*"],
-      "@Schwekas/UI/*": ["./modules/@Schwekas/UI/*"],
+      "@Schwekas/pool/*": ["./modules/@Schwekas/pool/*"],
       "@modules/*": ["./modules/*"]
     },
     "experimentalDecorators": true,
