@@ -2,12 +2,12 @@ import * as fs from "fs";
 import type { GraphQLType } from "graphql";
 import { GraphQLBoolean, GraphQLFloat, GraphQLInt, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLScalarType, GraphQLSchema, GraphQLString } from "graphql";
 import * as path from "path";
-// This huge path is okay for importing types as this whole idea is an exception anyway
-// import type { Arg, Field, GQLType, ValueType } from "./../../../build/lib/graphQLParser";
+// import type { Arg, Field, Type, ValueType } from "../../../build/lib/schemaParser";
 type Arg = any;
 type Field = any;
-type GQLType = any;
+type Type = any;
 type ValueType = any;
+// This huge path is okay for importing types as this whole idea is something out of the ordinary anyway
 // Unfortunately, we can't import these types as if they were imported, they would mess up the /dist/backend folder structure
 // TODO: Find out why this happens
 
@@ -56,16 +56,15 @@ function convertJsonType(type: ValueType, typesList: Record<string, GraphQLObjec
       gType = GraphQLList(arrayType);
       break;
     case "custom":
-      // Custom type, easy again
+      if (!(type.customType in typesList)) throw new Error(`Required type ${type.customType} not in types list`);
       gType = typesList[type.customType];
+      break;
   }
 
-  if (gType === undefined) throw new Error("Unknown type!");
-
-  return type.nullable ? gType : GraphQLNonNull(gType);
+  return type.nullable ? gType! : GraphQLNonNull(gType!);
 }
 
-function buildObjectTypeFromJsonSchema(json: GQLType, types: Record<string, GraphQLObjectType>): GraphQLObjectType {
+function buildObjectTypeFromJsonSchema(json: Type, types: Record<string, GraphQLObjectType>): GraphQLObjectType {
   return new GraphQLObjectType({
     name: json.name,
     description: json.description,
@@ -87,7 +86,7 @@ function buildObjectTypeFromJsonSchema(json: GQLType, types: Record<string, Grap
 function buildQueryObject(): GraphQLObjectType {
   const types: Record<string, GraphQLObjectType> = {};
 
-  for (const type of JSON.parse(fs.readFileSync(path.join(__dirname, "schema.json"), "utf8")) as any[]) {
+  for (const type of JSON.parse(fs.readFileSync(path.join(__dirname, "schema.json"), "utf-8")) as Type[]) {
     types[type.name] = buildObjectTypeFromJsonSchema(type, types);
   }
 

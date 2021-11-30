@@ -1,6 +1,6 @@
 process.env.NODE_ENV = "production";
 import { createProgram } from "@build/lib/backend";
-import { convertSchemasToJson } from "@build/lib/graphQLParser";
+import { convertSchemasToJson } from "@lib/schemaParser";
 import { createWebpackCompiler } from "@lib/webpack";
 import { DEBUG, INFO, WARN } from "@logger";
 import type * as webpack from "webpack";

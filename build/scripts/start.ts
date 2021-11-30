@@ -1,7 +1,7 @@
 process.env.NODE_ENV = "development";
-import { createProgram } from "@build/lib/backend";
-import { convertSchemasToJson } from "@build/lib/graphQLParser";
 import { __dist } from "@build/paths";
+import { createProgram } from "@lib/backend";
+import { convertSchemasToJson } from "@lib/schemaParser";
 import { createWebpackCompiler, createWebpackDevServerConfig } from "@lib/webpack";
 import { DEBUG, INFO, WARN } from "@logger";
 import type { ChildProcess } from "child_process";

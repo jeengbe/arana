@@ -29,7 +29,8 @@
           }
         ],
         "@typescript-eslint/explicit-module-boundary-types": "error",
-        "@typescript-eslint/no-parameter-properties": "off"
+        "@typescript-eslint/no-parameter-properties": "off",
+        "@typescript-eslint/no-namespace": "off"
       }
     }
   ],

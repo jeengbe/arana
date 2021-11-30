@@ -24,8 +24,9 @@ To enable HTTPS for the development server, simply set the `DEV_SERVER_SSL` envi
 ## Scripts
 It is also possible to pass flags to Arana scripts. These are configures to only have an effect when _present_, not _absent_.\
 The following flags are available:
-- `--noBackend`: Do not build or start the backend (available for `arana start`)
-- `--noFrontend`: Do not build or start the frontend (available for `arana start`)
+- `--noBackend`: Do not build or start the backend
+- `--noFrontend`: Do not build or start the frontend
+- `--noCatch`: Do not catch any exceptions (useful for debugging and breaking on uncaught exceptions)
 # TL;DR
 ## Setup
 Run `npm run build-arana`.

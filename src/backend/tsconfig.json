@@ -12,5 +12,9 @@
       "@modules/*": ["./modules/*"]
     },
     "experimentalDecorators": true,
-  }
+  },
+  "include": [
+    "modules/*/*/*",
+    "core/*"
+  ]
 }

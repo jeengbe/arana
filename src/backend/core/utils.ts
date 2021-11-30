@@ -10,5 +10,7 @@ export class Pagination<T extends Paginateable> {
   // TODO: Note: We should not load all of `data` into memory at once as we only display `limit` anyway
 }
 
-export type int = number;
-export type float = number;
+export namespace Arana {
+  export type int = number;
+  export type float = number;
+}

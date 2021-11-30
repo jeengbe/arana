@@ -78,7 +78,7 @@ export default function createPluginCollector<
   const collector = function (constructor: Ctor<Type>): void {
     collector.plugins.push(constructor);
   } as unknown as Collector<CollectorData, Type>;
-  // Set arbitrary properties on the function object
+  // Set required properties on the function object
   collector.plugins = [];
   collector.render = function (
     data?: CollectorData,

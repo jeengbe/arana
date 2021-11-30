@@ -2,7 +2,7 @@
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 require("source-map-support").install();
 
-import { ERROR } from "@logger";
+import { ERROR, INFO } from "@logger";
 import "./settings";
 
 
@@ -11,6 +11,10 @@ const option = args[0] ?? "<none>";
 
 if (!["start", "build", "test"].includes(option)) {
   ERROR`Unknown option: ${option}`;
+} else if (args.includes("--noCatch")) {
+  INFO`Found flag ${"--noCatch"}. Letting errors fall through.`;
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  require(`./scripts/${option}`);
 } else {
   try {
     // eslint-disable-next-line @typescript-eslint/no-require-imports

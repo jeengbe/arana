@@ -19,6 +19,10 @@
     "build-backend-watch": "nodemon ./bin/arana.js build --noFrontend --watch bin --watch .env",
     "start-frontend-watch": "nodemon ./bin/arana.js start --noBackend --watch bin --watch .env",
     "start-backend-watch": "nodemon ./bin/arana.js start --noFrontend --watch bin --watch .env",
+    "build-frontend": "node ./bin/arana.js build --noBackend",
+    "build-backend": "node ./bin/arana.js build --noFrontend",
+    "start-frontend": "node ./bin/arana.js start --noBackend",
+    "start-backend": "node ./bin/arana.js start --noFrontend",
     "build-watch": "nodemon ./bin/arana.js build --watch bin --watch .env"
   },
   "bin": {
