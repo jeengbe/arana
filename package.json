@@ -78,6 +78,7 @@
     "webpack-dev-server": "^4.5.0"
   },
   "dependencies": {
+    "arangojs": "^7.6.1",
     "classnames": "^2.3.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",

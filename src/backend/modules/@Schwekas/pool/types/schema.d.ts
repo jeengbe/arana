@@ -1,5 +1,5 @@
-export namespace Arana {
-  export interface ModuleFilter {
+declare global {
+  interface ModuleFilter {
     /**
      * The vendor of the module
      */
@@ -10,11 +10,11 @@ export namespace Arana {
     name?: string;
   }
 
-  export class Query {
+  class Query {
     /**
      * Get a module by vendor and name
      */
-    module(
+    async module(
       /**
        * The vendor of the module
        */
@@ -23,43 +23,30 @@ export namespace Arana {
        * The name of the module
        */
       name: string
-    ): Module | null {
-      return data.modules.find(m => m.vendor === vendor && m.name === name);
-    }
+    ): Promise<Module | null>;
 
     /**
      * Query all modules
      */
-    @paginate()
-    modules(filter?: ModuleFilter): Module[] {
-
-    }
+    modules(filter?: ModuleFilter): Module[];
 
     /**
      * The server's public key
      */
-    publicKey(): string {
-
-    }
+    publicKey(): string;
   }
 
-  export class Mutation {
+  class Mutation {
     /**
      * Add a module to the pool
      * @param location URI to the repository
      * @return The added module
      */
-    @requirePermission("pool.admin.module.add")
-    addModule(location: string): Module {
-
-    }
+    addModule(location: string): Module;
 
     /**
      * Remove a module from the pool
      */
-    @requirePermission("pool.admin.module.remove")
-    removeModule(vendor: string, name: string): void {
-
-    }
+    removeModule(vendor: string, name: string): void;
   }
 }

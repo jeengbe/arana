@@ -68,7 +68,7 @@ function findEntries(): webpack.EntryObject {
     throw new UserError("Found no modules with entry points. Aborting start.");
   } else {
     DEBUG`Found ${entriesLength} module${entriesLength !== 1 ? "s" : ""} with entry points:
-  ${entries}`;
+${entries}`;
   }
 
   return entries;

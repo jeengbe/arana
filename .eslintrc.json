@@ -17,6 +17,7 @@
       // Don't require explicit accessibility for properties of class Query
       "files": ["src/backend/modules/**/*.ts", "src/backend/core/utils.ts"],
       "rules": {
+        "@typescript-eslint/no-use-before-define": "off",
         "@typescript-eslint/explicit-member-accessibility": [
           "error",
           {
@@ -24,7 +25,8 @@
             "overrides": {
               "constructors": "no-public",
               "properties": "no-public",
-              "methods": "no-public"
+              "methods": "no-public",
+              "accessors": "no-public"
             }
           }
         ],

@@ -11,10 +11,12 @@
       "@Schwekas/pool/*": ["./modules/@Schwekas/pool/*"],
       "@modules/*": ["./modules/*"]
     },
-    "experimentalDecorators": true,
+    "experimentalDecorators": true
   },
   "include": [
-    "modules/*/*/*",
+    "modules/*/*/types/*.d.ts",
+    "modules/*/*/database/types.d.ts",
+    "modules/*/*/*.ts",
     "core/*"
   ]
 }
