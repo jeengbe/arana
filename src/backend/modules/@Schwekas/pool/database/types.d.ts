@@ -1,8 +1,4 @@
-interface IModule {
-  _id: string;
-  _key: string;
-  _ref: string;
-
+interface IModule extends IType {
   vendor: string;
   name: string;
   description: string;

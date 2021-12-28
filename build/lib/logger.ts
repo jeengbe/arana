@@ -17,7 +17,7 @@ export function DEBUG(strings: string | TemplateStringsArray, ...rest: any[]): v
   if (typeof strings === "string") {
     console.log(`${chalk.gray("[D]")} ${strings}`);
   } else {
-    console.log(`${chalk.gray("[D]")} ${strings.map((string, index) => string + (rest[index] ? inspect(rest[index], { colors: true }) : "")).join("")}`);
+    console.log(`${chalk.gray("[D]")} ${strings.map((string, index) => string + (rest[index] ? inspect(rest[index], { colors: true, depth: null }) : "")).join("")}`);
   }
 }
 

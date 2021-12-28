@@ -1,9 +1,10 @@
-import { db } from "@core/database";
+import { query } from "@core/database";
 import { Type } from "@core/utils";
 import { aql } from "arangojs";
-import type { ArrayCursor } from "arangojs/cursor";
 
-export class Module<T = {}> extends Type<IModule & T> {
+export class Module extends Type<IModule> {
+  #version?: Version;
+
   /**
    * The vendor of the module
    */
@@ -22,7 +23,7 @@ export class Module<T = {}> extends Type<IModule & T> {
    * The version of the module
    */
   get version(): Version {
-    return new Version(this.data.version);
+    return this.#version ?? (this.#version = new Version(this.data.version));
   }
 
   /**
@@ -43,13 +44,13 @@ export class Module<T = {}> extends Type<IModule & T> {
    * The dependencies of the module
    */
   async dependencies(): Promise<ModuleDependency[]> {
-    const cursor = await db.query(aql`
+    const cursor = await query(aql`
       FOR dependency, edge IN 1..1 OUTBOUND ${this.data._id} moduleDependencies
         RETURN {
           dependency: dependency,
           minVersion: edge.minVersion
         }
-    `) as ArrayCursor<{ dependency: IModule; minVersion: string; }>;
+    `);
     return (await cursor.all()).map(
       ({ dependency, minVersion }) => new ModuleDependency({ dependency, minVersion })
     );

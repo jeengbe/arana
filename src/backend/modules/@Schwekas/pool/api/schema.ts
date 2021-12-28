@@ -2,7 +2,6 @@ import { db } from "@core/database";
 import { aql } from "arangojs";
 import type { ArrayCursor } from "arangojs/cursor";
 
-
 interface ModuleFilter {
   /**
    * The vendor of the module
@@ -31,7 +30,7 @@ export class Query {
     const cursor = await db.query(aql`
       FOR module IN modules
         FILTER module.vendor == ${vendor} && module.name == ${name}
-        RETURN { module }
+        RETURN module
     `) as ArrayCursor<IModule>;
     const data = await cursor.next();
     return data ? new Module(data) : null;
@@ -74,4 +73,8 @@ export class Query {
 // }
 
 const query = new Query();
-console.log(query.module("@Schwekas", "pool"));
+query.module("@Schwekas", "poolextension").then(m => {
+  console.log(m?.dependencies().then(d => {
+    console.log(d);
+  }));
+});

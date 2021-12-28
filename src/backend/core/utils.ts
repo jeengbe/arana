@@ -2,6 +2,10 @@ export abstract class Type<T> {
   constructor(
     protected readonly data: T
   ) { }
+
+  toJSON(): T {
+    return this.data;
+  }
 }
 
 export interface Paginateable {

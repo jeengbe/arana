@@ -50,7 +50,14 @@ function findEntries(): webpack.EntryObject {
       }
     }
     if (moduleEntries.length > 0) {
-      entries[id] = moduleEntries;
+      entries[id] = {
+        import: moduleEntries
+      };
+      // @TODO: Figure out dependencies on own
+      if (id === "@Schwekas/website") {
+        // @ts-expect-error
+        entries[id].dependOn = ["@Schwekas/UI"];
+      }
     } else {
       WARN`No entry points found for ${id}`;
     }
@@ -67,7 +74,7 @@ function findEntries(): webpack.EntryObject {
   if (entriesLength === 0) {
     throw new UserError("Found no modules with entry points. Aborting start.");
   } else {
-    DEBUG`Found ${entriesLength} module${entriesLength !== 1 ? "s" : ""} with entry points:
+    DEBUG`Found ${entriesLength} module(s) with entry points:
 ${entries}`;
   }
 
@@ -123,7 +130,7 @@ export function createWebpackConfig(): webpack.Configuration {
         }, ...getInstalledModules("frontend").map(({ id }) => ({
           [id]: {
             name: id,
-            test: new RegExp(`(?:[\\\\/]modules[\\\\/])?${id}[\\\\/]`),
+            test: new RegExp(`(?:[\\\\/]modules[\\\\/])?${id.replace("/", "[\\\\/]")}[\\\\/]`),
             chunks: "all",
             enforce: true
           }
