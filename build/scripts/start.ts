@@ -1,7 +1,6 @@
 process.env.NODE_ENV = "development";
 import { __dist } from "@build/paths";
 import { createProgram } from "@lib/backend";
-import { convertSchemasToJson } from "@lib/schemaParser";
 import { createWebpackCompiler, createWebpackDevServerConfig } from "@lib/webpack";
 import { DEBUG, INFO, WARN } from "@logger";
 import type { ChildProcess } from "child_process";
@@ -67,9 +66,6 @@ function startBackend() {
   const program = createProgram(true, restartServer);
   INFO("Starting backend typescript compiler");
   program.emit();
-  INFO("Converting GraphQL schemas to json");
-  convertSchemasToJson();
-  INFO("Converting finished");
 }
 
 if (!dontStartFrontend) startFrontend();

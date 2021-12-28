@@ -1,6 +1,5 @@
 process.env.NODE_ENV = "production";
 import { createProgram } from "@build/lib/backend";
-import { convertSchemasToJson } from "@lib/schemaParser";
 import { createWebpackCompiler } from "@lib/webpack";
 import { DEBUG, INFO, WARN } from "@logger";
 import type * as webpack from "webpack";
@@ -44,9 +43,6 @@ function buildBackend() {
   INFO("Building backend");
   program.emit();
   INFO("Building backend finished");
-  INFO("Converting GraphQL schemas to json");
-  convertSchemasToJson();
-  INFO("Converting finished");
 }
 
 if (!dontBuildFrontend) void buildFrontend();
