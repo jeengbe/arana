@@ -1,0 +1,26 @@
+components:
+  alert:
+    name: Alert
+    description: An alert is a colorful box that displays contents etc. bla bla
+    examples:
+      variants:
+        content: This is an alert of type '{{variant}}'.
+      dismissible:
+        content: Alerts can be dismissed.
+      icon:
+        content: Alerts can contain icons.
+    props:
+      dismissible:
+        name: Dismissible
+        description: Whether the alert can be closed
+      icon:
+        name: Icon
+        description: Icon to prepend
+      children:
+        name: Alert message
+        description: Content for the alert box to display
+pages:
+  demo:
+   route: /EN
+   title: Hello There
+   welcome: Welcome!

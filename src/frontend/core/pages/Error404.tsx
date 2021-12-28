@@ -14,8 +14,8 @@ export default class Error404 extends Page {
       <>
         <Title>{__("pages.error.404.title")}</Title>
         <Row>
-          <Column width={12}>
-            <Heading size={1}>{__("pages.error.404.text")}</Heading>
+          <Column width="12">
+            <Heading size="1">{__("pages.error.404.text")}</Heading>
           </Column>
         </Row>
       </>

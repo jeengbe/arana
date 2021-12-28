@@ -1,0 +1,26 @@
+components:
+  alert:
+    name: Meldung
+    description: Eine Meldung ist eine bunte Box, die Inhalt zeigt etc. bla bla
+    examples:
+      variants:
+        content: Dies ist eine Meldung des Typs '{{variant}}'.
+      dismissible:
+        content: Meldungen können geschlossen werden.
+      icon:
+        content: Meldungen können Icons enthalten.
+    props:
+      dismissible:
+        name: Schließbar
+        description: Ob die Meldung geschlossen werden kann
+      icon:
+        name: Icon
+        description: Anzuhängendes Icon
+      children:
+        name: Meldung
+        description: Inhalt der Meldebox
+pages:
+  demo:
+   route: /DE
+   title: Hallo Da!
+   welcome: Willkommen!

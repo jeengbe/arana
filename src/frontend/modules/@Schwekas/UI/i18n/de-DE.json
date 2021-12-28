@@ -1,0 +1,16 @@
+{
+  "components.alert.name": "Meldung",
+  "components.alert.description": "Eine Meldung ist eine bunte Box, die Inhalt zeigt etc. bla bla",
+  "components.alert.examples.variants.content": "Dies ist eine Meldung des Typs '{{variant}}'.",
+  "components.alert.examples.dismissible.content": "Meldungen können geschlossen werden.",
+  "components.alert.examples.icon.content": "Meldungen können Icons enthalten.",
+  "components.alert.props.dismissible.name": "Schließbar",
+  "components.alert.props.dismissible.description": "Ob die Meldung geschlossen werden kann",
+  "components.alert.props.icon.name": "Icon",
+  "components.alert.props.icon.description": "Anzuhängendes Icon",
+  "components.alert.props.children.name": "Meldung",
+  "components.alert.props.children.description": "Inhalt der Meldebox",
+  "pages.demo.route": "/DE",
+  "pages.demo.title": "Hallo Da!",
+  "pages.demo.welcome": "Willkommen!"
+}

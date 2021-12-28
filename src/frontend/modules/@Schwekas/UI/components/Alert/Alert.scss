@@ -1,0 +1,7 @@
+@use "../../../../../core/styles" as *;
+
+.alert {
+  border: 1px solid black;
+
+  @include variants;
+}
