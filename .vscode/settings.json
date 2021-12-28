@@ -1,5 +1,5 @@
 {
-  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "typescript.tsdk": "./node_modules/ttypescript/lib",
   "cSpell.words": [
     "arana",
     "clazz",
@@ -34,5 +34,7 @@
     "TODO",
     "TEST"
   ],
-  "files.eol": "\n"
+  "files.eol": "\n",
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.enablePromptUseWorkspaceTsdk": true
 }

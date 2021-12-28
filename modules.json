@@ -1,0 +1,17 @@
+[
+  {
+    "id": "@Schwekas/UI",
+    "vendor": "Schwekas",
+    "name": "UI",
+    "isFrontend": true,
+    "isBackend": false
+  },
+  {
+    "id": "@Schwekas/website",
+    "vendor": "Schwekas",
+    "name": "website",
+    "isFrontend": true,
+    "isBackend": false
+  }
+
+]

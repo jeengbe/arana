@@ -2,7 +2,7 @@
   "extends": "./../../tsconfig.json",
   "compilerOptions": {
     "sourceMap": true,
-    "target": "ES2016",
+    "target": "ES5",
     "jsx": "react",
     "baseUrl": ".",
     "resolveJsonModule": true,

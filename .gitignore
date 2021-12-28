@@ -5,6 +5,6 @@
 /.env
 
 # Arana
-/modules.json
-/src/frontend/modules
+# /modules.json
+# /src/frontend/modules
 # /src/backend/modules
