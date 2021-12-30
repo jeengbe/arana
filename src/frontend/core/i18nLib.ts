@@ -90,6 +90,7 @@ const updateUpdatingStrings = (): void => {
  * Make sure that all language files have been loaded
  */
 export async function awaitSetup(): Promise<void> {
+  // We are safe to await this array here as all modules will have been loaded by now. (thanks to webpack-configuration)
   await Promise.all(setupPromises);
   updateUpdatingStrings();
 }

@@ -48,6 +48,8 @@ export function UserComponent<Props>(options: UserComponentOptions<Props>) {
   };
 }
 
+// TODO: Remove HTML from regular component
+// Special component for HTML Extends
 export abstract class Component<
   Props = {},
   State = {},
