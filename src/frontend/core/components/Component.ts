@@ -48,7 +48,7 @@ export function UserComponent<Props>(options: UserComponentOptions<Props>) {
   };
 }
 
-export default abstract class Component<
+export abstract class Component<
   Props = {},
   State = {},
   HTMLProps extends React.HTMLAttributes<unknown> = React.HTMLAttributes<unknown>

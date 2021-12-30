@@ -1,5 +1,5 @@
-import { default as getCurrentRoute } from "./internal/currentRoute";
-import engineRoute from "./internal/engineRouteFunction";
+import { getCurrentRoute } from "./internal/currentRoute";
+import { engineRoute } from "./internal/engineRouteFunction";
 
 export let currentLanguage = "en-EN";
 

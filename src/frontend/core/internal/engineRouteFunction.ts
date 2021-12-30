@@ -12,6 +12,6 @@ export function setRouteFunction(func: () => void): void {
   routeFunction = func;
 }
 
-export default function engineRoute(): void {
+export function engineRoute(): void {
   routeFunction!();
 }

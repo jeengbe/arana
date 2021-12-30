@@ -70,7 +70,7 @@ interface ComplexCollector<
  * OR
  */
 // TODO: Copy from documentation
-export default function createPluginCollector<
+export function createPluginCollector<
   CollectorData extends Record<string, any> = Record<string, never>,
   Type extends Plugin<CollectorData> = Plugin<CollectorData>
 >(): Collector<CollectorData, Type> {

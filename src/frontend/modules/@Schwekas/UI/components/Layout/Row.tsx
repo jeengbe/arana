@@ -1,9 +1,9 @@
-import Component from "@core/components/Component";
+import { Component } from "@core/components/Component";
 import classNames from "classnames";
 import * as React from "react";
 import css from "./Layout.scss";
 
-export default class Row extends Component {
+export class Row extends Component {
   public render(): JSX.Element {
     const { className, children, ...props } = this.props;
 

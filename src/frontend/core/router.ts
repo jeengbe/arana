@@ -1,11 +1,11 @@
-import __ from "./i18n";
+import { __ } from "./i18n";
 import type { updatingString } from "./i18nLib";
 import { currentLanguage, setLanguage } from "./i18nLib";
 import { setCurrentRoute } from "./internal/currentRoute";
-import engineRoute from "./internal/engineRouteFunction";
-import routes, { addRoute } from "./internal/routes";
-import type Page from "./Page";
-import Error404 from "./pages/Error404";
+import { engineRoute } from "./internal/engineRouteFunction";
+import { routes, addRoute } from "./internal/routes";
+import type { Page } from "./Page";
+import { Error404 } from "./pages/Error404";
 
 /**
  * Object used to add a route to the router

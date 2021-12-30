@@ -1,11 +1,11 @@
-import Component, { UserComponent, VariantComponent } from "@core/components/Component";
+import { Component, UserComponent, VariantComponent } from "@core/components/Component";
 import classNames from "classnames";
 import * as React from "react";
 import { __ } from "../../i18n";
 import css from "./Alert.scss";
 
 // TODO: Remove
-declare class Icon extends Component<{ type: string; }> {
+declare class Icon extends Component<{ type: string }> {
   public render(): JSX.Element;
 }
 
@@ -22,7 +22,7 @@ interface Props {
     ...VariantComponent.variants.map(variant => (
       <Alert key={`v-${variant}`} variant={variant}>
         {__("components.alert.examples.variants.content", {
-          variant
+          variant,
         })}
       </Alert>
     )),
@@ -31,27 +31,27 @@ interface Props {
     </Alert>,
     <Alert key="icon" icon={<Icon type="happy-face" />}>
       {__("components.alert.examples.icon.content")}
-    </Alert>
+    </Alert>,
   ],
   props: {
     dismissible: {
       name: __("components.alert.props.dismissible.name"),
       description: __("components.alert.props.dismissible.description"),
-      type: "boolean"
+      type: "boolean",
     },
     icon: {
       name: __("components.alert.props.icon.name"),
       description: __("components.alert.props.icon.description"),
-      type: Icon
+      type: Icon,
     },
     children: {
       name: __("components.alert.props.children.name"),
       description: __("components.alert.props.children.description"),
-      type: "string"
-    }
-  }
+      type: "string",
+    },
+  },
 })
-export default class Alert extends VariantComponent<Props> {
+export class Alert extends VariantComponent<Props> {
   public render(): JSX.Element {
     const { children, className, ...props } = this.props;
 

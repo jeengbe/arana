@@ -18,6 +18,6 @@ export function setCurrentRoute(route: CurrentRoute): void {
  * **IMPORTANT** You must first call `Router.determineCurrentRoute()` for this not to be null!\
  * Otherwise, you may get runtime errors.
  */
-export default function getCurrentRoute(): CurrentRoute {
+export function getCurrentRoute(): CurrentRoute {
   return currentRoute as CurrentRoute;
 }

@@ -1,4 +1,4 @@
-import Component from "@core/components/Component";
+import { Component } from "@core/components/Component";
 import * as React from "react";
 import "./Typography.scss";
 
@@ -6,7 +6,7 @@ interface Props {
   size: "1" | "2" | "3" | "4" | "5" | "6";
 }
 
-export default class Heading extends Component<
+export class Heading extends Component<
   Props,
   {},
   React.AllHTMLAttributes<HTMLHeadingElement>

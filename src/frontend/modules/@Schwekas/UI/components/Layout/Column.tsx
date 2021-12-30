@@ -1,4 +1,4 @@
-import Component from "@core/components/Component";
+import { Component } from "@core/components/Component";
 import classNames from "classnames";
 import * as React from "react";
 import css from "./Layout.scss";
@@ -8,7 +8,7 @@ interface Props {
   noOuterPadding?: boolean;
 }
 
-export default class Column extends Component<Props> {
+export class Column extends Component<Props> {
   public render(): JSX.Element {
     const {
       width,

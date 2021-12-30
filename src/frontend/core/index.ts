@@ -1,4 +1,4 @@
-import Engine from "./engine";
+import { Engine } from "./engine";
 import { awaitSetup, currentLanguage } from "./i18nLib";
 
 Engine.load();

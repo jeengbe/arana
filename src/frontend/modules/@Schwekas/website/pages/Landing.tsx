@@ -1,12 +1,12 @@
-import Page from "@core/Page";
+import { Page } from "@core/Page";
 import * as React from "react";
-import Title from "@core/components/Title";
+import { Title } from "@core/components/Title";
 import { __ } from "../i18n";
-import Heading from "@Schwekas/UI/components/Typography/Heading";
-import Route from "@core/routeDecorator";
+import { Heading } from "@Schwekas/UI/components/Typography/Heading";
+import { Route } from "@core/routeDecorator";
 
 @Route("/")
-export default class Landing extends Page {
+export class Landing extends Page {
   public render(): JSX.Element {
     return (
       <>

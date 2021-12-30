@@ -1,14 +1,14 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import * as Lib from "./i18nLib";
-import getCurrentRoute from "./internal/currentRoute";
+import { getCurrentRoute } from "./internal/currentRoute";
 import { setRouteFunction } from "./internal/engineRouteFunction";
 import { Router } from "./router";
 
 /**
  * The Engine serves as the main entry point to the application. Its main purpose is to render the current page to DOM.
  */
-export default class Engine {
+export class Engine {
   /**
    * Render the loading screen to DOM
    */

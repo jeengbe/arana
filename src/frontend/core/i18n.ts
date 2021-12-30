@@ -11,7 +11,7 @@ const { defaultStrings, currentStrings } = setupI18n(filesMap, "en-US");
 /**
  * Translate a string from this module
  */
-export default function __(key: keyof typeof defaultStringsList, data: Record<string, string> = {}): string {
+export function __(key: keyof typeof defaultStringsList, data: Record<string, string> = {}): string {
   let strings = currentStrings;
   if (!(key in strings)) {
     strings = defaultStrings;

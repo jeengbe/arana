@@ -1,9 +1,9 @@
-import Component from "@core/components/Component";
+import { Component } from "@core/components/Component";
 import classNames from "classnames";
 import * as React from "react";
 import css from "./Layout.scss";
 
-export default class Container extends Component {
+export class Container extends Component {
   public displayName = "Container";
 
   public render(): JSX.Element {
