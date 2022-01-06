@@ -1,0 +1,13 @@
+diff --git a/node_modules/madge/bin/cli.js b/node_modules/madge/bin/cli.js
+index d8f14cd..0fd9bae 100644
+--- a/node_modules/madge/bin/cli.js
++++ b/node_modules/madge/bin/cli.js
+@@ -115,7 +115,7 @@ if (config.tsConfig) {
+ 	const ts = require('typescript');
+ 	const tsParsedConfig = ts.readJsonConfigFile(config.tsConfig, ts.sys.readFile);
+ 	const obj = ts.parseJsonSourceFileConfigFileContent(tsParsedConfig, ts.sys, path.dirname(config.tsConfig));
+-	config.tsConfig = obj.raw;
++	// config.tsConfig = obj.raw;
+ }
+ 
+ if (program.includeNpm) {

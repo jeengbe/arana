@@ -25,7 +25,8 @@
     "build-backend": "node ./bin/arana.js build --noFrontend",
     "start-frontend": "node ./bin/arana.js start --noBackend",
     "start-backend": "node ./bin/arana.js start --noFrontend",
-    "build-watch": "nodemon ./bin/arana.js build --watch bin --watch .env"
+    "build-watch": "nodemon ./bin/arana.js build --watch bin --watch .env",
+    "madge-frontend": "madge ./src/frontend -b ./src/frontend --image madge-frontend.svg"
   },
   "bin": {
     "arana": "./bin/arana.js"

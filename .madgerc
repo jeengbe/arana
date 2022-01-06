@@ -1,0 +1,16 @@
+{
+  "detectiveOptions": {
+    "ts": {
+      "skipTypeImports": true
+    },
+    "tsx": {
+      "skipTypeImports": true
+    }
+  },
+  "tsConfig": "./src/frontend/tsconfig.json",
+  "fileExtensions": [
+    "ts",
+    "tsx"
+  ],
+  "baseDir": "./src/frontend/"
+}

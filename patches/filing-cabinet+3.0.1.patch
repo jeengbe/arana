@@ -1,0 +1,88 @@
+diff --git a/node_modules/filing-cabinet/index.js b/node_modules/filing-cabinet/index.js
+index 3d64fc1..2c301a4 100644
+--- a/node_modules/filing-cabinet/index.js
++++ b/node_modules/filing-cabinet/index.js
+@@ -2,7 +2,8 @@
+ 
+ const path = require('path');
+ const debug = require('debug')('cabinet');
+-
++const { createMatchPath } = require('tsconfig-paths')
++const fs = require('fs');
+ /*
+  * most js resolver are lazy-loaded (only required when needed)
+  * e.g. dont load requirejs when we only have commonjs modules to resolve
+@@ -44,6 +45,8 @@ const defaultLookups = {
+  * @param {String} [options.nodeModulesConfig.entry] The new value for "main" in package json
+  * @param {String} [options.webpackConfig] Path to the webpack config
+  * @param {Object} [options.ast] A preparsed AST for the file identified by filename.
++ * @param {String|Object} [options.tsConfig] Path to a typescript configuration or an object representing a pre-parsed typescript config.
++ * @param {String} [options.tsConfigPath] A (virtual) Path to typescript config file when options.tsConfig is given as an object. Needed to calculate [Path Mapping](https://www.typescriptlang.org/docs/handbook/module-resolution.html#path-mapping). If not given when options.tsConfig is an object, Path Mapping is not considered.
+  * @param {Object} [options.tsConfig] Path to a typescript config file
+  * @param {boolean} [options.noTypeDefinitions] Whether to return '.d.ts' files or '.js' files for a dependency
+  */
+@@ -211,9 +214,13 @@ function jsLookup({dependency, filename, directory, config, webpackConfig, confi
+   }
+ }
+ 
+-function tsLookup({dependency, filename, tsConfig, noTypeDefinitions}) {
++function tsLookup({dependency, filename, tsConfig, tsConfigPath, noTypeDefinitions}) {
+   debug('performing a typescript lookup');
+ 
++  if (typeof tsConfig === 'string') {
++    tsConfigPath = tsConfigPath || path.dirname(tsConfig)
++  }
++
+   let compilerOptions = getCompilerOptionsFromTsConfig(tsConfig);
+ 
+   // Preserve for backcompat. Consider removing this as a breaking change.
+@@ -239,6 +246,49 @@ function tsLookup({dependency, filename, tsConfig, noTypeDefinitions}) {
+       .map((string) => string.substr(0, string.length - suffix.length));
+ 
+     result = lookUpLocations.find(ts.sys.fileExists) || '';
++
++    if (!result && tsConfigPath && compilerOptions.baseUrl && compilerOptions.paths) {
++      const absoluteBaseUrl = path.join(path.dirname(tsConfigPath), compilerOptions.baseUrl)
++      // REF: https://github.com/dividab/tsconfig-paths#creatematchpath
++      const tsMatchPath = createMatchPath(absoluteBaseUrl, compilerOptions.paths)
++      const extensions = ['.ts', '.tsx', '.d.ts', '.js', '.jsx', '.json', '.node']
++      // REF: https://github.com/dividab/tsconfig-paths#creatematchpath
++      const resolvedTsAliasPath = tsMatchPath(dependency, undefined, undefined, extensions); // Get absolute path by ts path mapping. `undefined` if non-existent
++      if (resolvedTsAliasPath) {
++        const stat = (() => {
++          try {
++            // fs.statSync throws an error if path is non-existent
++            return fs.statSync(resolvedTsAliasPath)
++          } catch (error) {
++            return undefined
++          }
++        })()
++        if (stat) {
++          if (stat.isDirectory()) {
++            // When directory is imported, index file is resolved
++            for (const ext of extensions) {
++              const filename = path.join(resolvedTsAliasPath, 'index' + ext)
++              if (fs.existsSync(filename)) {
++                result = filename
++                break;
++              }
++            }
++          } else {
++            // if the path is complete filename
++            result = resolvedTsAliasPath
++          }
++        } else {
++          // For cases a file extension is omitted when being imported
++          for (const ext of extensions) {
++            const filenameWithExt = resolvedTsAliasPath + ext
++            if (fs.existsSync(filenameWithExt)) {
++              result = filenameWithExt
++              break;
++            }
++          }
++        }
++      }
++    }
+   }
+ 
+   debug('result: ' + result);

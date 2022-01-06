@@ -1,0 +1,13 @@
+diff --git a/node_modules/dependency-tree/lib/Config.js b/node_modules/dependency-tree/lib/Config.js
+index 4be5d58..80b8ee3 100644
+--- a/node_modules/dependency-tree/lib/Config.js
++++ b/node_modules/dependency-tree/lib/Config.js
+@@ -28,7 +28,7 @@ class Config {
+       const ts = require('typescript');
+       const tsParsedConfig = ts.readJsonConfigFile(this.tsConfig, ts.sys.readFile);
+       const obj = ts.parseJsonSourceFileConfigFileContent(tsParsedConfig, ts.sys, path.dirname(this.tsConfig));
+-      this.tsConfig = obj.raw;
++      // this.tsConfig = obj.raw;
+     }
+ 
+     debug('given filename: ' + this.filename);
