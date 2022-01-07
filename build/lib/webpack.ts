@@ -21,7 +21,7 @@ import { UserError } from "./UserError";
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const FlexGapPolyfill = require("flex-gap-polyfill");
 const PostcssMediaMinMax = require("postcss-media-minmax");
-
+import * as TailwindCss from "tailwindcss";
 
 /**
  * Iterate all modules and add their entries
@@ -180,6 +180,7 @@ export function createWebpackConfig(): webpack.Configuration {
               options: {
                 importLoaders: 1,
                 modules: {
+                  auto: (fileName: string) => !fileName.endsWith("global.scss"),
                   localIdentName: process.env.NODE_ENV === "development" ? "[local]__[path][name]" : "[hash:base64:6]"
                 }
               }
@@ -189,6 +190,14 @@ export function createWebpackConfig(): webpack.Configuration {
               options: {
                 postcssOptions: {
                   plugins: [
+                    TailwindCss({
+                      content: ["./src/frontend/**/*.tsx"],
+                      darkMode: "media",
+                      theme: {
+                        extend: {}
+                      },
+                      plugins: []
+                    }),
                     Autoprefixer,
                     PostcssFlexbugFixes,
                     FlexGapPolyfill,

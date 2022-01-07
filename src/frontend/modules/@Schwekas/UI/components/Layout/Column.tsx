@@ -1,7 +1,6 @@
 import { Component } from "@core/components/Component";
 import classNames from "classnames";
 import * as React from "react";
-import css from "./Layout.scss";
 
 interface Props {
   width: "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10" | "11" | "12";
@@ -22,10 +21,7 @@ export class Column extends Component<Props> {
     return (
       <div
         className={classNames(
-          className,
-          css.column,
-          css[`column-${width}`],
-          { [css.noPaddingOuter]: noOuterPadding }
+          className
         )}
         {...props}
       >

@@ -1,7 +1,6 @@
 import { Component } from "@core/components/Component";
 import classNames from "classnames";
 import * as React from "react";
-import css from "./Layout.scss";
 
 export class Container extends Component {
   public displayName = "Container";
@@ -10,7 +9,7 @@ export class Container extends Component {
     const { className, children, ...props } = this.props;
 
     return (
-      <div className={classNames(className, css.container)} {...props}>
+      <div className={classNames(className)} {...props}>
         {children}
       </div>
     );
