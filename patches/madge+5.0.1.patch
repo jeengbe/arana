@@ -9,7 +9,7 @@ index d8f14cd..0fd9bae 100644
 -	config.tsConfig = obj.raw;
 +	// config.tsConfig = obj.raw;
  }
-
+ 
  if (program.includeNpm) {
 diff --git a/node_modules/madge/lib/api.js b/node_modules/madge/lib/api.js
 index 76a989e..a179e1c 100644
@@ -26,10 +26,10 @@ index 76a989e..a179e1c 100644
  	graphVizPath: false,
  	dependencyFilter: false
 diff --git a/node_modules/madge/lib/graph.js b/node_modules/madge/lib/graph.js
-index 29032ea..3fa87f1 100644
+index 29032ea..689c4d9 100644
 --- a/node_modules/madge/lib/graph.js
 +++ b/node_modules/madge/lib/graph.js
-@@ -79,39 +79,82 @@ function createGraphvizOptions(config) {
+@@ -79,39 +79,89 @@ function createGraphvizOptions(config) {
   * @return {Promise}
   */
  function createGraph(modules, circular, config, options) {
@@ -112,7 +112,14 @@ index 29032ea..3fa87f1 100644
 +  let hoverStyles = Object.entries(edgeIndices).map(([id, deps]) => {
 +    return Object.entries(deps)
 +      .map(
-+        ([, edgeId]) => `#node${nodeIndices[id]}:hover~#edge${edgeId}>path {
++        ([depId, edgeId]) => `#node${nodeIndices[depId]}:hover~#edge${edgeId}>path {
++stroke: ${config.hoverEdgeColor};
++}
++#node${nodeIndices[depId]}:hover~#edge${edgeId}>polygon {
++stroke: ${config.hoverEdgeColor};
++fill: ${config.hoverEdgeColor};
++}
++#node${nodeIndices[id]}:hover~#edge${edgeId}>path {
 +stroke: ${config.hoverEdgeColor};
 +}
 +#node${nodeIndices[id]}:hover~#edge${edgeId}>polygon {
@@ -143,5 +150,5 @@ index 29032ea..3fa87f1 100644
 +    });
 +  });
  }
-
+ 
  /**
