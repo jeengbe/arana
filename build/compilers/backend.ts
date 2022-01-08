@@ -3,8 +3,8 @@ import * as fs from "fs";
 import * as path from "path";
 import * as tts from "ttypescript";
 import type * as ts from "typescript";
-import { DEBUG, WARN } from "./logger";
-import { getInstalledModules } from "./manager";
+import { DEBUG, WARN } from "../lib/logger";
+import { getInstalledModules } from "../lib/manager";
 
 
 export function getRootFiles() {

@@ -1,33 +1,14 @@
 process.env.NODE_ENV = "production";
-import { createProgram } from "@build/lib/backend";
-import { createWebpackCompiler } from "@lib/webpack";
-import { DEBUG, INFO, WARN } from "@logger";
+import { createProgram as createBackendProgram } from "@build/compilers/backend";
+import { createWebpackCompiler } from "@build/compilers/frontend";
+import { createProgram as createWebserverProgram } from "@build/compilers/webserver";
+import { shouldInclude } from "@lib/args";
+import { DEBUG, INFO } from "@logger";
 import type * as webpack from "webpack";
 
 DEBUG`Setting ${"NODE_ENV"} to ${"production"}`;
 
-
-let dontBuildFrontend = false;
-let dontBuildBackend = false;
-
-if (process.argv.includes("--noFrontend")) {
-  DEBUG`Found flag ${"--noFrontend"}`;
-  INFO("Not building frontend");
-  dontBuildFrontend = true;
-} else {
-  DEBUG`Didn't find flag ${"--noFrontend"}`;
-}
-if (process.argv.includes("--noBackend")) {
-  DEBUG`Found flag ${"--noBackend"}`;
-  INFO("Not building backend");
-  dontBuildBackend = true;
-} else {
-  DEBUG`Didn't find flag ${"--noBackend"}`;
-}
-
-if (dontBuildFrontend && dontBuildBackend) {
-  WARN("Neither building frontend nor backend");
-}
+const { shouldIncludeFrontend, shouldIncludeBackend, shouldIncludeWebserver } = shouldInclude();
 
 async function buildFrontend() {
   INFO("Creating frontend webpack compiler");
@@ -39,11 +20,20 @@ async function buildFrontend() {
 
 function buildBackend() {
   INFO("Creating backend typescript compiler");
-  const program = createProgram();
+  const program = createBackendProgram();
   INFO("Building backend");
   program.emit();
   INFO("Building backend finished");
 }
 
-if (!dontBuildFrontend) void buildFrontend();
-if (!dontBuildBackend) buildBackend();
+function buildWebserver() {
+  INFO("Creating webserver typescript compiler");
+  const program = createWebserverProgram();
+  INFO("Building webserver");
+  program.emit();
+  INFO("Building webserver finished");
+}
+
+if (shouldIncludeFrontend) void buildFrontend();
+if (shouldIncludeBackend) buildBackend();
+if (shouldIncludeWebserver) buildWebserver();

@@ -12,16 +12,16 @@ import * as HtmlWebpackPlugin from "html-webpack-plugin";
 import * as MiniCssExtractPlugin from "mini-css-extract-plugin";
 import * as path from "path";
 import * as PostcssFlexbugFixes from "postcss-flexbugs-fixes";
+import * as TailwindCss from "tailwindcss";
 import * as TerserWebpackPlugin from "terser-webpack-plugin";
 import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
 import * as webpack from "webpack";
 import type * as webpackDevServer from "webpack-dev-server";
-import * as AddI18nPlugin from "./addI18nPlugin/index";
-import { UserError } from "./UserError";
+import * as AddI18nPlugin from "../lib/addI18nPlugin/index";
+import { UserError } from "../lib/UserError";
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const FlexGapPolyfill = require("flex-gap-polyfill");
 const PostcssMediaMinMax = require("postcss-media-minmax");
-import * as TailwindCss from "tailwindcss";
 
 /**
  * Iterate all modules and add their entries
@@ -53,7 +53,7 @@ function findEntries(): webpack.EntryObject {
       entries[id] = {
         import: moduleEntries
       };
-      // @TODO: Figure out dependencies on own
+      // TODO: Figure out dependencies on own
       if (id === "@Schwekas/website") {
         // @ts-expect-error
         entries[id].dependOn = ["@Schwekas/UI"];

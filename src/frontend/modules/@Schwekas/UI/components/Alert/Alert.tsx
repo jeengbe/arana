@@ -58,7 +58,7 @@ export class Alert extends VariantComponent<Props> {
       <div
         className={classNames(className)}
         {...props}
-        // @TODO: Render Icon
+        // TODO: Render Icon
       >
         {children}
       </div>

@@ -9,7 +9,7 @@ import "./settings";
 const args = process.argv.slice(2);
 const option = args[0] ?? "<none>";
 
-if (!["start", "build", "test"].includes(option)) {
+if (!["dev", "build", "test"].includes(option)) {
   ERROR`Unknown option: ${option}`;
 } else if (args.includes("--noCatch")) {
   INFO`Found flag ${"--noCatch"}. Letting errors fall through.`;
