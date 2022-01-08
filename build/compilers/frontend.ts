@@ -6,7 +6,6 @@ import { readdirRecursiveSync } from "@utils";
 import * as Autoprefixer from "autoprefixer";
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
 import * as CopyWebpackPlugin from "copy-webpack-plugin";
-import * as CssMinimizerWebpackPlugin from "css-minimizer-webpack-plugin";
 import * as fs from "fs";
 import * as HtmlWebpackPlugin from "html-webpack-plugin";
 import * as MiniCssExtractPlugin from "mini-css-extract-plugin";
@@ -138,7 +137,9 @@ export function createWebpackConfig(): webpack.Configuration {
       },
       usedExports: true,
       minimizer: [
-        new CssMinimizerWebpackPlugin(), new TerserWebpackPlugin({
+        // TODO: Fix and reenable
+        // new CssMinimizerWebpackPlugin(),
+        new TerserWebpackPlugin({
           terserOptions: {
             mangle: {
               properties: {
