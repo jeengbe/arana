@@ -1,4 +1,4 @@
-process.env.NODE_ENV = "production";
+process.env.NODE_ENV = "development";
 import { createProgram as createBackendProgram } from "@build/compilers/backend";
 import { createWebpackCompiler } from "@build/compilers/frontend";
 import { createProgram as createWebserverProgram } from "@build/compilers/webserver";

@@ -24,9 +24,9 @@
     "build-backend": "arana build --withBackend",
     "build-frontend": "arana build --withFrontend",
     "build-webserver": "arana build --withWebserver",
-    "build-backend-watch": "nodemon --watch bin --watch src/backend --watch .env ./bin/arana.js build --withBackend",
-    "build-frontend-watch": "nodemon --watch bin --watch src/frontend --watch .env ./bin/arana.js build --withFrontend",
-    "build-webserver-watch": "nodemon --watch bin --watch src/webserver --watch .env ./bin/arana.js build --withWebserver"
+    "build-backend-watch": "nodemon --watch bin --watch src/backend -e ts,tsx,json,js --watch .env ./bin/arana.js build --withBackend",
+    "build-frontend-watch": "nodemon --watch bin --watch src/frontend -e ts,tsx,json,js --watch .env ./bin/arana.js build --withFrontend",
+    "build-webserver-watch": "nodemon --watch bin --watch src/webserver -e ts,tsx,json,js --watch .env ./bin/arana.js build --withWebserver"
   },
   "bin": {
     "arana": "./bin/arana.js"

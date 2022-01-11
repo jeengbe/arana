@@ -25,7 +25,7 @@ export class Engine {
    */
   public static route(): void {
     Router.determineCurrentRoute();
-    ReactDOM.render(
+    ReactDOM.hydrate(
       <React.StrictMode>
         {React.createElement(getCurrentRoute().page, {
           key: Lib.currentLanguage

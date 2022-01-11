@@ -1,19 +1,20 @@
-import { Page } from "@core/Page";
-import * as React from "react";
 import { Title } from "@core/components/Title";
-import { __ } from "../i18n";
-import { Heading } from "@Schwekas/UI/components/Typography/Heading";
+import { Page } from "@core/Page";
 import { Route } from "@core/routeDecorator";
+import * as React from "react";
+import { BlogList } from "../components/blog/BlogList";
+import { __ } from "../i18n";
 
 @Route("/")
-export class Landing extends Page {
+export class Index extends Page {
   public render(): JSX.Element {
     return (
       <>
         <Title>{__("pages.landing.title")}</Title>
-        <Heading size="3">
+        <h3>
           {__("pages.landing.welcome")}
-        </Heading>
+        </h3>
+        <BlogList />
       </>
     );
   }

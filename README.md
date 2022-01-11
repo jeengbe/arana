@@ -1,3 +1,16 @@
+# Production
+Arana can be used in several ways in production:
+## Sources
+When running `arana build`, the frontend, the backend, and the web server are built and can be found in the `dist` folder. You can then do with those whatever the license allows.
+## Server
+With `arana start`, you can start the web server and the backend server. This step does not compile any code, so it is recommended to run `arana build` before this step. (Note that `arana build` is automatically run if no sources are found.)
+## Docker
+Arana provides a Dockerfile that can be used to build images for both the backend and the frontend combined or separately.
+
+# Development
+Use `arana dev` to start the web server and the backend server in development mode.\
+When working only on the frontend or backend respectively, by adding `--withFrontend` or `--withBackend` to the command, it is possible to only start the required services.
+
 # Notes
 backend graphql resolver comments:
 function w. parameter -> Verb in comment eg: "Get ..." / "Query ..."

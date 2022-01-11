@@ -252,7 +252,7 @@ export function createWebpackConfig(): webpack.Configuration {
       new AddI18nPlugin(),
       new HtmlWebpackPlugin({
         filename: path.resolve(__dist.frontend, "index.html"),
-        templateContent: "<html><body><div id=\"app\"></div></body></html>"
+        templateContent: "<html><body><div id=\"app\"/></body></html>"
       })
     ],
     stats: {

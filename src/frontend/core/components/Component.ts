@@ -50,12 +50,15 @@ export function UserComponent<Props>(options: UserComponentOptions<Props>) {
 
 export abstract class Component<
   Props = {},
-  State = {},
-  HTMLProps extends React.HTMLAttributes<unknown> = React.HTMLAttributes<unknown>
+  State = {}
 > extends React.Component<
-  Props & Pick<HTMLProps, Exclude<keyof HTMLProps, keyof Props>>,
+  Props,
   State
-  > {
+  >{
+  public state = {
+
+  } as State;
+
   public abstract render(): JSX.Element;
 
   // Implement here so that children can call super.
@@ -67,22 +70,29 @@ export abstract class Component<
 }
 
 
-export type Variant = typeof VariantComponent.variants[number];
-
-export abstract class VariantComponent<
+export abstract class HTMLComponent<
   Props = {},
   State = {},
   HTMLProps extends React.HTMLAttributes<unknown> = React.HTMLAttributes<unknown>
 > extends Component<
+  Props & Pick<HTMLProps, Exclude<keyof HTMLProps, keyof Props>>,
+  State
+  >{ }
+
+export type Variant = typeof VariantComponent.variants[number];
+
+export abstract class VariantComponent<
+  Props = {},
+  State = {}
+> extends Component<
   Props & {
     variant?: Variant;
   },
-  State,
-  HTMLProps
+  State
   > {
   public static readonly variants = ["success", "warning", "error", "info", "default"] as const;
 
-  public abstract render(): JSX.Element;
+  // public abstract render(): JSX.Element;
 
   /**
    * Return the required classes for this Component's variant from a given css declaration
