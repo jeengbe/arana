@@ -18,11 +18,11 @@ property/parameterless function -> No verb in comment eg: "id" / "name"
 
 TL;DR at the bottom of the page.
 # Setup
-To commence working, you must (ironically) first build the build-script. This is done by running `npm run build-arana`. This automatically installs all required modules and builds all scripts required to run and build Arana.
+To commence working, you must (ironically) first build the build-script. This is done by running `yarn build-arana`. This automatically installs all required modules and builds all scripts required to run and build Arana.
 ## Start
-To start Arana, simply run `npm run start`. This will start the server on your specified port.
+To start Arana, simply run `yarn start`. This will start the server on your specified port.
 ## Build
-To build Arana for production, run `npm run build`. This will build your application and place it in the `dist` folder. Note that your frontend code is located in the `dist/frontend` folder, whilst your backend code is located in the `dist/backend` folder.
+To build Arana for production, run `yarn build`. This will build your application and place it in the `dist` folder. Note that your frontend code is located in the `dist/frontend` folder, whilst your backend code is located in the `dist/backend` folder.
 ## Test
 Tests are not yet implemented.
 # Environment Variables
@@ -42,10 +42,10 @@ The following flags are available:
 - `--noCatch`: Do not catch any exceptions (useful for debugging and breaking on uncaught exceptions)
 # TL;DR
 ## Setup
-Run `npm run build-arana`.
+Run `yarn build-arana`.
 ## Development server
-Run `npm run start`.
+Run `yarn start`.
 ### HTTPS
 Set `DEV_SERVER_SSL=true` and `DEV_SERVER_SSL_CRT`, `DEV_SERVER_SSL_KEY` accordingly.
 ## Build
-Run `npm run build`.
+Run `yarn build`.

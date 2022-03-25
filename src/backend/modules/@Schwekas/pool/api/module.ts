@@ -1,10 +1,9 @@
 import { query } from "@core/database";
 import { Type } from "@core/utils";
 import { aql } from "arangojs";
+import type { IModule } from "../models/pool";
 
 export class Module extends Type<IModule> {
-  #version?: Version;
-
   /**
    * The vendor of the module
    */
@@ -23,7 +22,7 @@ export class Module extends Type<IModule> {
    * The version of the module
    */
   get version(): Version {
-    return this.#version ?? (this.#version = new Version(this.data.version));
+    return new Version(this.data.version);
   }
 
   /**

@@ -1,0 +1,12 @@
+diff --git a/node_modules/webpack/types.d.ts b/node_modules/webpack/types.d.ts
+index c3838ae..006c3fb 100644
+--- a/node_modules/webpack/types.d.ts
++++ b/node_modules/webpack/types.d.ts
+@@ -12965,6 +12965,7 @@ declare namespace exports {
+ 		AsyncDependenciesBlock,
+ 		BannerPlugin,
+ 		Cache,
++		CallbackFunction,
+ 		Chunk,
+ 		ChunkGraph,
+ 		CleanPlugin,

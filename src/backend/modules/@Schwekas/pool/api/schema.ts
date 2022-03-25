@@ -1,6 +1,7 @@
 import { db } from "@core/database";
 import { aql } from "arangojs";
 import type { ArrayCursor } from "arangojs/cursor";
+import type { IModule } from "../models/pool";
 
 interface ModuleFilter {
   /**
@@ -33,6 +34,9 @@ export class Query {
         RETURN module
     `) as ArrayCursor<IModule>;
     const data = await cursor.next();
+
+    const m = new Module("hi" as unknown as IModule);
+
     return data ? new Module(data) : null;
   }
 
@@ -58,7 +62,7 @@ export class Query {
 //    * @param location URI to the repository
 //    * @return The added module
 //    */
-//   @requirePermission("pool.admin.module.add")
+//   @withPermission("pool.admin.module.add")
 //   addModule(location: string): Module {
 
 //   }
@@ -66,7 +70,7 @@ export class Query {
 //   /**
 //    * Remove a module from the pool
 //    */
-//   @requirePermission("pool.admin.module.remove")
+//   @withPermission("pool.admin.module.remove")
 //   removeModule(vendor: string, name: string): void {
 
 //   }
@@ -78,3 +82,6 @@ query.module("@Schwekas", "poolextension").then(m => {
     console.log(d);
   }));
 });
+
+
+m = new Module();

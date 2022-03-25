@@ -29,11 +29,6 @@
       ]
     }
   },
-  "todo-tree.general.tags": [
-    "BUG",
-    "TODO",
-    "TEST"
-  ],
   "files.eol": "\n",
   "javascript.preferences.importModuleSpecifier": "non-relative",
   "typescript.enablePromptUseWorkspaceTsdk": true

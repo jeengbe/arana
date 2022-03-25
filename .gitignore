@@ -4,6 +4,7 @@
 /dist
 /.env
 /madge-*.svg
+/yarn-error.log
 
 # Arana
 # /modules.json

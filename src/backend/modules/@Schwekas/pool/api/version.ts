@@ -13,7 +13,7 @@ export class Version extends Type<string> {
   }
 
   /**
-   * Check whether a given version is greater than this version
+   * Check whether a version is greater than this version
    *
    * @param version The version to compare to
    */

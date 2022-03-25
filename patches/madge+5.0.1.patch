@@ -1,16 +1,21 @@
 diff --git a/node_modules/madge/bin/cli.js b/node_modules/madge/bin/cli.js
-index d8f14cd..0fd9bae 100644
+index d8f14cd..f9f8b14 100755
 --- a/node_modules/madge/bin/cli.js
 +++ b/node_modules/madge/bin/cli.js
-@@ -115,7 +115,7 @@ if (config.tsConfig) {
- 	const ts = require('typescript');
- 	const tsParsedConfig = ts.readJsonConfigFile(config.tsConfig, ts.sys.readFile);
- 	const obj = ts.parseJsonSourceFileConfigFileContent(tsParsedConfig, ts.sys, path.dirname(config.tsConfig));
--	config.tsConfig = obj.raw;
-+	// config.tsConfig = obj.raw;
+@@ -111,13 +111,6 @@ if (program.tsConfig) {
+ 	config.tsConfig = program.tsConfig;
  }
  
+-if (config.tsConfig) {
+-	const ts = require('typescript');
+-	const tsParsedConfig = ts.readJsonConfigFile(config.tsConfig, ts.sys.readFile);
+-	const obj = ts.parseJsonSourceFileConfigFileContent(tsParsedConfig, ts.sys, path.dirname(config.tsConfig));
+-	config.tsConfig = obj.raw;
+-}
+-
  if (program.includeNpm) {
+ 	config.includeNpm = program.includeNpm;
+ }
 diff --git a/node_modules/madge/lib/api.js b/node_modules/madge/lib/api.js
 index 76a989e..a179e1c 100644
 --- a/node_modules/madge/lib/api.js
@@ -26,89 +31,60 @@ index 76a989e..a179e1c 100644
  	graphVizPath: false,
  	dependencyFilter: false
 diff --git a/node_modules/madge/lib/graph.js b/node_modules/madge/lib/graph.js
-index 29032ea..689c4d9 100644
+index 29032ea..227147a 100644
 --- a/node_modules/madge/lib/graph.js
 +++ b/node_modules/madge/lib/graph.js
-@@ -79,39 +79,89 @@ function createGraphvizOptions(config) {
+@@ -79,7 +79,7 @@ function createGraphvizOptions(config) {
   * @return {Promise}
   */
  function createGraph(modules, circular, config, options) {
 -	const g = graphviz.digraph('G');
--	const nodes = {};
--	const cyclicModules = circular.reduce((a, b) => a.concat(b), []);
--
--	if (config.graphVizPath) {
--		g.setGraphVizPath(config.graphVizPath);
--	}
--
--	Object.keys(modules).forEach((id) => {
--		nodes[id] = nodes[id] || g.addNode(id);
--
--		if (!modules[id].length) {
--			setNodeColor(nodes[id], config.noDependencyColor);
--		} else if (cyclicModules.indexOf(id) >= 0) {
--			setNodeColor(nodes[id], config.cyclicNodeColor);
--		}
--
--		modules[id].forEach((depId) => {
--			nodes[depId] = nodes[depId] || g.addNode(depId);
--
--			if (!modules[depId]) {
--				setNodeColor(nodes[depId], config.noDependencyColor);
--			}
--
--			g.addEdge(nodes[id], nodes[depId]);
--		});
--	});
--
--	return new Promise((resolve, reject) => {
--		g.output(options, resolve, (code, out, err) => {
--			reject(new Error(err));
--		});
--	});
 +  const g = graphviz.digraph('madge');
-+  const nodes = {};
-+  const cyclicModules = circular.reduce((a, b) => a.concat(b), []);
-+
-+  if (config.graphVizPath) {
-+    g.setGraphVizPath(config.graphVizPath);
-+  }
-+
+ 	const nodes = {};
+ 	const cyclicModules = circular.reduce((a, b) => a.concat(b), []);
+ 
+@@ -87,8 +87,17 @@ function createGraph(modules, circular, config, options) {
+ 		g.setGraphVizPath(config.graphVizPath);
+ 	}
+ 
 +  const nodeIndices = {};
 +  const edgeIndices = {};
 +  // Graphviz starts counting at one
 +  let nodeIndex = 1;
 +  let edgeIndex = 1;
 +
-+  Object.keys(modules).forEach((id) => {
+ 	Object.keys(modules).forEach((id) => {
+-		nodes[id] = nodes[id] || g.addNode(id);
 +    if (!nodes[id]) {
 +      nodeIndices[id] = nodeIndex++;
 +    }
 +    nodes[id] = nodes[id] || g.addNode(id);
-+
-+    if (!modules[id].length) {
-+      setNodeColor(nodes[id], config.noDependencyColor);
-+    } else if (cyclicModules.indexOf(id) >= 0) {
-+      setNodeColor(nodes[id], config.cyclicNodeColor);
-+    }
-+
+ 
+ 		if (!modules[id].length) {
+ 			setNodeColor(nodes[id], config.noDependencyColor);
+@@ -96,7 +105,11 @@ function createGraph(modules, circular, config, options) {
+ 			setNodeColor(nodes[id], config.cyclicNodeColor);
+ 		}
+ 
+-		modules[id].forEach((depId) => {
 +    modules[id].forEach((depId) => {
 +      if (!nodes[depId]) {
 +        nodeIndices[depId] = nodeIndex++;
 +      }
 +
-+      nodes[depId] = nodes[depId] || g.addNode(depId);
-+
-+      if (!modules[depId]) {
-+        setNodeColor(nodes[depId], config.noDependencyColor);
-+      }
-+
-+      g.addEdge(nodes[id], nodes[depId]);
+ 			nodes[depId] = nodes[depId] || g.addNode(depId);
+ 
+ 			if (!modules[depId]) {
+@@ -104,12 +117,49 @@ function createGraph(modules, circular, config, options) {
+ 			}
+ 
+ 			g.addEdge(nodes[id], nodes[depId]);
+-		});
 +      edgeIndices[id] = edgeIndices[id] || {};
 +      edgeIndices[id][depId] = edgeIndex++;
 +    });
-+  });
-+
+ 	});
+ 
 +  let hoverStyles = Object.entries(edgeIndices).map(([id, deps]) => {
 +    return Object.entries(deps)
 +      .map(
@@ -134,7 +110,9 @@ index 29032ea..689c4d9 100644
 +</style>
 +`;
 +
-+  return new Promise((resolve, reject) => {
+ 	return new Promise((resolve, reject) => {
+-		g.output(options, resolve, (code, out, err) => {
+-			reject(new Error(err));
 +    g.output(options, (rendered) => {
 +      if (options.type === 'svg') {
 +        const svgFooter = '</svg>\n\n';
@@ -147,8 +125,21 @@ index 29032ea..689c4d9 100644
 +      }
 +    }, (code, out, err) => {
 +      reject(new Error(err));
-+    });
-+  });
+ 		});
+ 	});
  }
- 
- /**
+diff --git a/node_modules/madge/test/api.js b/node_modules/madge/test/api.js
+index 2afd3f7..1dfb19c 100644
+--- a/node_modules/madge/test/api.js
++++ b/node_modules/madge/test/api.js
+@@ -232,8 +232,8 @@ describe('API', () => {
+ 		it('returns a promise resolved with graphviz DOT output', async () => {
+ 			const res = await madge(__dirname + '/cjs/b.js');
+ 			const output = await res.dot();
+-			output.should.match(/digraph G/);
+-			output.should.match(/bgcolor="#111111"/);
++      output.should.match(/digraph madge/);
++      output.should.match(/bgcolor="#111111"/);
+ 			output.should.match(/fontcolor="#c6c5fe"/);
+ 			output.should.match(/color="#757575"/);
+ 			output.should.match(/fontcolor="#cfffac"/);

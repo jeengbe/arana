@@ -15,7 +15,7 @@
   },
   "include": [
     "modules/*/*/types/**/*.d.ts",
-    "modules/*/*/database/types.d.ts",
+    // "modules/*/*/models/*.d.ts",
     "modules/*/*/api/**/*.ts",
     "core/*"
   ]

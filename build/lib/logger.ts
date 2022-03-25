@@ -1,47 +1,83 @@
 import { UserError } from "@lib/UserError";
 import { LogLevel } from "@settings";
-import * as chalk from "chalk";
+import chalk from "chalk";
 import { inspect } from "util";
 
-function mayLog(level: LogLevel) {
+function shouldPrint(level: LogLevel) {
   const { LOG_LEVEL } = process.env;
 
   return level <= ["ERROR", "WARN", "INFO", "DEBUG"].indexOf(LOG_LEVEL);
 }
 
+let shouldBuffer = false;
+const messageBuffer: string[] = [];
+
+export function enableBuffer() {
+  shouldBuffer = true;
+}
+
+export function flushBuffer() {
+  if (shouldBuffer) {
+    messageBuffer.forEach(line => console.log(line));
+    messageBuffer.length = 0;
+    shouldBuffer = false;
+  }
+}
+
 export function DEBUG(strings: TemplateStringsArray, ...rest: any[]): void;
 export function DEBUG(strings: string): void;
 export function DEBUG(strings: string | TemplateStringsArray, ...rest: any[]): void {
-  if (!mayLog(LogLevel.DEBUG)) return;
+  if (!shouldPrint(LogLevel.DEBUG)) return;
 
+  let message;
   if (typeof strings === "string") {
-    console.log(`${chalk.gray("[D]")} ${strings}`);
+    message = `${chalk.gray("[D]")} ${strings}`;
   } else {
-    console.log(`${chalk.gray("[D]")} ${strings.map((string, index) => string + (rest[index] ? inspect(rest[index], { colors: true, depth: null }) : "")).join("")}`);
+    message = `${chalk.gray("[D]")} ${strings.map((string, index) => string + (rest[index] ? inspect(rest[index], { colors: true, depth: null }) : "")).join("")}`;
+  }
+
+  if (shouldBuffer) {
+    messageBuffer.push(message);
+  } else {
+    console.log(message);
   }
 }
 
 export function INFO(strings: TemplateStringsArray, ...rest: any[]): void;
 export function INFO(strings: string): void;
 export function INFO(strings: string | TemplateStringsArray, ...rest: any[]): void {
-  if (!mayLog(LogLevel.INFO)) return;
+  if (!shouldPrint(LogLevel.INFO)) return;
 
+  let message;
   if (typeof strings === "string") {
-    console.log(`${chalk.blue("[I]")} ${strings}`);
+    message = `${chalk.blue("[I]")} ${strings}`;
   } else {
-    console.log(`${chalk.blue("[I]")} ${strings.map((string, index) => string + (rest[index] ? inspect(rest[index], { colors: true }) : "")).join("")}`);
+    message = `${chalk.blue("[I]")} ${strings.map((string, index) => string + (rest[index] ? inspect(rest[index], { colors: true }) : "")).join("")}`;
+  }
+
+  if (shouldBuffer) {
+    messageBuffer.push(message);
+  } else {
+    console.log(message);
   }
 }
 
 export function WARN(strings: TemplateStringsArray, ...rest: any[]): void;
 export function WARN(strings: string): void;
 export function WARN(strings: string | TemplateStringsArray, ...rest: any[]): void {
-  if (!mayLog(LogLevel.WARN)) return;
+  if (!shouldPrint(LogLevel.WARN)) return;
 
+  let message;
   if (typeof strings === "string") {
-    console.log(`${chalk.yellow("[W]")} ${strings}`);
+    message = `${chalk.yellow("[W]")} ${strings}`;
   } else {
-    console.log(`${chalk.yellow("[W]")} ${strings.map((string, index) => string + (rest[index] ? inspect(rest[index], { colors: true }) : "")).join("")}`);
+    message = `${chalk.yellow("[W]")} ${strings.map((string, index) => string + (rest[index] ? inspect(rest[index], { colors: true }) : "")).join("")}`;
+  }
+
+  if (shouldBuffer) {
+    messageBuffer.push(message);
+  } else {
+    console.log(message);
   }
 }
 
@@ -65,9 +101,18 @@ export function ERROR(strings: string | TemplateStringsArray | Error, ...rest: a
         DEBUG`Unable to determine file name from error\n${strings}`;
       }
     }
-  } else if (typeof strings === "string") {
-    console.log(`${chalk.red("[E]")} ${strings}`);
   } else {
-    console.log(`${chalk.red("[E]")} ${strings.map((string, index) => string + (rest[index] ? inspect(rest[index], { colors: true }) : "")).join("")}`);
+    let message;
+    if (typeof strings === "string") {
+      message = `${chalk.red("[E]")} ${strings}`;
+    } else {
+      message = `${chalk.red("[E]")} ${strings.map((string, index) => string + (rest[index] ? inspect(rest[index], { colors: true }) : "")).join("")}`;
+    }
+
+    if (shouldBuffer) {
+      messageBuffer.push(message);
+    } else {
+      console.log(message);
+    }
   }
 }

@@ -1,4 +1,4 @@
-process.env.NODE_ENV = "development";
+process.env.NODE_ENV = "production";
 import { createProgram as createBackendProgram } from "@build/compilers/backend";
 import { createWebpackCompiler } from "@build/compilers/frontend";
 import { createProgram as createWebserverProgram } from "@build/compilers/webserver";
@@ -14,7 +14,7 @@ async function buildFrontend() {
   INFO("Creating frontend webpack compiler");
   const webpack = createWebpackCompiler();
   INFO("Building frontend");
-  await new Promise((resolve: (error: Error | undefined, stats: webpack.Stats | undefined) => void) => webpack.run(resolve));
+  await new Promise((resolve: webpack.CallbackFunction<webpack.Stats>) => webpack.run(resolve));
   INFO("Building frontend finished");
 }
 

@@ -1,6 +1,15 @@
 import { Type } from "@core/utils";
 
+
 declare global {
+  class Module<T = {}> extends Type<IModule & T> {
+    /**
+     * The dependencies of the module
+     */
+    async a(): "HI";
+  }
+
+
   /**
    * A semver-compatible versioning scheme
    */
@@ -17,5 +26,4 @@ declare global {
      */
     isGreaterThan(version: string): boolean;
   }
-
 }

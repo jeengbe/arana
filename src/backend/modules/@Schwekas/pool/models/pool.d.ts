@@ -1,4 +1,6 @@
-interface IModule extends IType {
+import type { IDocument } from "@core/types";
+
+export interface IModule extends IDocument {
   vendor: string;
   name: string;
   description: string;
@@ -6,7 +8,7 @@ interface IModule extends IType {
   authors: IAuthor[];
 }
 
-interface IAuthor {
+export interface IAuthor {
   name: string;
   email: string;
 }
