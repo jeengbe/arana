@@ -1,6 +1,7 @@
-import { DEBUG as logDebug, enableBuffer, ERROR as logError, flushBuffer } from "@logger";
+import * as chalk from "chalk";
 import { parse as parseEnv } from "dotenv";
 import * as fs from "fs";
+import { inspect } from "util";
 
 interface Environment {
   /**
@@ -67,7 +68,20 @@ export enum LogLevel {
   ERROR = 0
 }
 
-enableBuffer();
+function ERR(strings: TemplateStringsArray, ...rest: any[]): void {
+  console.log(`${chalk.red("[E]")} ${strings.map((string, index) => string + (rest[index] ? inspect(rest[index], { colors: true }) : "")).join("")}`);
+}
+
+const dbgBuffer: { strings: TemplateStringsArray; rest: any[]; }[] = [];
+function DBG(strings: TemplateStringsArray, ...rest: any[]): void {
+  dbgBuffer.push({ strings, rest });
+}
+
+function flushDbgBuffer() {
+  if (LogLevel.DEBUG <= ["ERROR", "WARN", "INFO", "DEBUG"].indexOf(process.env.LOG_LEVEL)) {
+    dbgBuffer.forEach(({ strings, rest }) => console.log(`${chalk.gray("[D]")} ${strings.map((string, index) => string + (rest[index] ? inspect(rest[index], { colors: true }) : "")).join("")}`));
+  }
+}
 
 const variables: Record<keyof Environment, {
   validate?: string[] | ((value?: string) => any);
@@ -111,26 +125,26 @@ const parsed = parseEnv(fs.readFileSync(`${__dirname}/../.env`));
 
 for (const [key, { validate, fallback }] of Object.entries(variables)) {
   if (key in env) {
-    logDebug`Not setting ${key} as it is already set`;
+    DBG`Not setting ${key} as it is already set`;
     continue;
   }
   if (!(key in parsed)) {
-    logDebug`Setting ${key} to default value ${fallback}`;
+    DBG`Setting ${key} to default value ${fallback}`;
     env[key] = fallback;
     continue;
   }
   const value = parsed[key];
   if (validate === undefined || (typeof validate === "function" ? Boolean(validate(value)) : validate.includes(value))) {
-    logDebug`Setting ${key} to ${value}`;
+    DBG`Setting ${key} to ${value}`;
     env[key] = value;
     continue;
   } else {
-    logError`Invalid ${key}: ${value}. Defaulting to ${fallback}`;
+    ERR`Invalid ${key}: ${value}. Defaulting to ${fallback}`;
     env[key] = fallback;
   }
 }
 
-flushBuffer();
+flushDbgBuffer();
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace -- Node does this so we need it too

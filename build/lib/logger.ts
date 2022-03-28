@@ -1,6 +1,6 @@
 import { UserError } from "@lib/UserError";
 import { LogLevel } from "@settings";
-import chalk from "chalk";
+import * as chalk from "chalk";
 import { inspect } from "util";
 
 function shouldPrint(level: LogLevel) {
